@@ -3255,12 +3255,23 @@ class PlayState extends MusicBeatState
 
 		if(funnyFloatyBoys.contains(dad.curCharacter.toLowerCase()) && canFloat) {
 			dad.y += (Math.sin(elapsedtime) * 0.6);
+			if(dad.animation.curAnim.name.startsWith('idle'))
+				camFollow.y += (Math.sin(elapsedtime) * 0.6);
 		}
 		if(funnySideFloatyBoys.contains(dad.curCharacter.toLowerCase()) && canSlide) {
 			dad.x += (Math.cos(elapsedtime) * 0.6);
+			if(dad.animation.curAnim.name.startsWith('idle'))
+				camFollow.x += (Math.sin(elapsedtime) * 0.6);
 		}
 		if(funnyFloatyBoys.contains(boyfriend.curCharacter.toLowerCase()) && canFloat) {
 			boyfriend.y += (Math.sin(elapsedtime) * 0.6);
+			if(boyfriend.animation.curAnim.name.startsWith('idle') || boyfriend.animation.curAnim.name.endsWith('miss'))
+				camFollow.y += (Math.sin(elapsedtime) * 0.6);
+		}
+		if(funnySideFloatyBoys.contains(boyfriend.curCharacter.toLowerCase()) && canFloat) {
+			boyfriend.x += (Math.sin(elapsedtime) * 0.6);
+			if(boyfriend.animation.curAnim.name.startsWith('idle') || boyfriend.animation.curAnim.name.endsWith('miss'))
+				camFollow.x += (Math.sin(elapsedtime) * 0.6);
 		}
 		if(canFloat && !funnyFloatyBoys.contains(boyfriend.curCharacter.toLowerCase())) {
 			switch (curStage) {

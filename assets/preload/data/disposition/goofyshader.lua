@@ -16,7 +16,6 @@ function opponentNoteHit(id, noteData, noteType, isSustainNote)
 end
 
 function onCreatePost()
-    luaDebugMode = true
     initLuaShader("vcr")
     
     makeLuaSprite("temporaryShader")

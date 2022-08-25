@@ -215,6 +215,9 @@ class PlayState extends MusicBeatState
 	public var cpuControlled:Bool = false;
 	public var practiceMode:Bool = false;
 
+	private var cameraOnDad:Bool = false;
+	private var cameraOnBF:Bool = false;
+
 	private var shakeCam:Bool = false;
 	private var camZoomSnap:Bool = false;
 
@@ -3255,18 +3258,18 @@ class PlayState extends MusicBeatState
 
 		if(funnyFloatyBoys.contains(dad.curCharacter.toLowerCase()) && canFloat) {
 			dad.y += (Math.sin(elapsedtime) * 0.6);
-			if(dad.animation.curAnim.name.startsWith('idle'))
+			if(dad.animation.curAnim.name.startsWith('idle') && cameraOnDad)
 				camFollow.y += (Math.sin(elapsedtime) * 0.6);
 		}
 		if(funnySideFloatyBoys.contains(dad.curCharacter.toLowerCase()) && canSlide) {
 			dad.x += (Math.cos(elapsedtime) * 0.6);
-			if(dad.animation.curAnim.name.startsWith('idle'))
+			if(dad.animation.curAnim.name.startsWith('idle') && cameraOnDad)
 				camFollow.x += (Math.sin(elapsedtime) * 0.6);
 		}
 		if(funnyFloatyBoys.contains(boyfriend.curCharacter.toLowerCase()) && canFloat) {
 			boyfriend.y += (Math.sin(elapsedtime) * 0.6);
 			if(boyfriend.animation.curAnim.name.startsWith('idle') || boyfriend.animation.curAnim.name.endsWith('miss'))
-				camFollow.y += (Math.sin(elapsedtime) * 0.6);
+				if (cameraOnBF) camFollow.y += (Math.sin(elapsedtime) * 0.6);
 		}
 		if(funnySideFloatyBoys.contains(boyfriend.curCharacter.toLowerCase()) && canFloat) {
 			boyfriend.x += (Math.sin(elapsedtime) * 0.6);
@@ -4318,11 +4321,15 @@ class PlayState extends MusicBeatState
 		if (!SONG.notes[curSection].mustHitSection)
 		{
 			moveCamera(true);
+			cameraOnDad = true;
+			cameraOnBF = false;
 			callOnLuas('onMoveCamera', ['dad']);
 		}
 		else
 		{
 			moveCamera(false);
+			cameraOnDad = false;
+			cameraOnBF = true;
 			callOnLuas('onMoveCamera', ['boyfriend']);
 		}
 	}

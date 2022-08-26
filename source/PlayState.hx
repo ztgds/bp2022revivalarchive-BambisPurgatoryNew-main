@@ -268,6 +268,8 @@ class PlayState extends MusicBeatState
 	var santa:BGSprite;
 	var heyTimer:Float;
 
+	var blackScreendeez:FlxSprite;
+
 	var bgGirls:BackgroundGirls;
 	var wiggleShit:WiggleEffect = new WiggleEffect();
 	var bgGhouls:BGSprite;
@@ -424,6 +426,11 @@ class PlayState extends MusicBeatState
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
+
+		blackScreendeez = new FlxSprite(-120, -120).makeGraphic(Std.int(FlxG.width * 100), Std.int(FlxG.height * 150), FlxColor.BLACK);
+		blackScreendeez.scrollFactor.set();
+		blackScreendeez.alpha = 0;
+		add(blackScreendeez);
 
 		#if desktop
 		storyDifficultyText = CoolUtil.difficulties[storyDifficulty];
@@ -1590,6 +1597,7 @@ class PlayState extends MusicBeatState
 			botplayTxt.y = timeBarBG.y - 78;
 		}
 
+		blackScreendeez.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
 		grpNoteSplashes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -3314,11 +3322,11 @@ class PlayState extends MusicBeatState
 		{
 			for(str in playerStrums) {
 				str.angle = 15*Math.cos((elapsedtime*2)+str.ID*2);
-				str.y = strumLine.y+(40*Math.sin((elapsedtime*2)+str.ID*2));
+				str.y = strumLine.y+(25*Math.sin((elapsedtime*2)+str.ID*2));
 			}
 			for(str in opponentStrums) {
 				str.angle = 15*Math.cos((elapsedtime*2)+str.ID*2);
-				str.y = strumLine.y+(40*Math.sin((elapsedtime*2)+str.ID*2));
+				str.y = strumLine.y+(25*Math.sin((elapsedtime*2)+str.ID*2));
 			}
 		}
 
@@ -3347,9 +3355,9 @@ class PlayState extends MusicBeatState
 				switch (curStep)
 				{
 					case 0:
-						//hideshit();
+						hideshit();
 					case 15:
-						//showonlystrums();
+						showonlystrums();
 				}
 		}
 
@@ -4284,6 +4292,35 @@ class PlayState extends MusicBeatState
 						if(ClientPrefs.flashing) camHUD.flash(FlxColor.WHITE, 1);
 					case 3:
 						if(ClientPrefs.flashing) camHUD.flash(FlxColor.BLACK, 1);
+				}
+			case 'Hide or Show HUD elements':
+				var top10awesomeId:Int = Std.parseInt(value1);
+				switch (top10awesomeId)
+				{
+                    case 0:
+						hideshit();
+					case 1:
+						showonlystrums();
+					case 2:
+						showshit();
+				}
+			case 'Hide or Show HUD elements with Fade':
+				var vsEvilCorruptedBambiDay4Id:Int = Std.parseInt(value1);
+				switch (vsEvilCorruptedBambiDay4Id)
+				{
+                    case 0:
+						hideHUDFade();
+					case 1:
+						showHUDFade();
+				}
+			case 'Thunderstorm type black screen':
+				var ballsId:Int = Std.parseInt(value1);
+				switch (ballsId)
+				{
+					case 0: 
+						FlxTween.tween(blackScreendeez, {alpha: 0}, Conductor.stepCrochet / 500);
+					case 1:
+						FlxTween.tween(blackScreendeez, {alpha: 0.35}, Conductor.stepCrochet / 500);
 				}
 			case 'Toggle Eyesores':
 				var a1000YOMAMAjokesCanYouWatchThemAllquestionmarkId:Int = Std.parseInt(value1);
@@ -5368,6 +5405,79 @@ class PlayState extends MusicBeatState
 			resetFastCar();
 			carTimer = null;
 		});
+	}
+
+	function hideshit() // basically a camHUD.visible = false; except it doesnt fuck up dialogue (and i didnt want to do another camera for the dialogue)
+	{
+		if(!ClientPrefs.hideHud) {
+			songinfoBar.visible = false;
+			healthBar.visible = false;
+			healthBarBG.visible = false;
+			iconP1.visible = false;
+			iconP2.visible = false;
+		} 
+		strumLineNotes.visible = false;
+		grpNoteSplashes.visible = false;
+		notes.visible = false;
+		scoreTxt.visible = false;
+		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
+		if(showTime) {
+	    	timeBar.visible = false;
+	    	timeBarBG.visible = false;
+		    timeTxt.visible = false;
+		}
+	}
+	
+	function showshit()
+	{
+		if(!ClientPrefs.hideHud) {
+			songinfoBar.visible = true;
+			healthBar.visible = true;
+			healthBarBG.visible = true;
+			iconP1.visible = true;
+			iconP2.visible = true;
+		} 
+		strumLineNotes.visible = true;
+		grpNoteSplashes.visible = true;
+		notes.visible = true;
+		scoreTxt.visible = true;
+		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
+		if(showTime) {
+	    	timeBar.visible = true;
+	    	timeBarBG.visible = true;
+		    timeTxt.visible = true; 
+		}
+	}
+	
+	function showonlystrums() // does the thing that it says
+	{
+		songinfoBar.visible = true;
+		if(!ClientPrefs.hideHud) {
+	    	healthBar.visible = false;
+	     	healthBarBG.visible = false;
+	        iconP1.visible = false;
+	    	iconP2.visible = false;
+		}
+	   	scoreTxt.visible = false;
+		strumLineNotes.visible = true;
+		grpNoteSplashes.visible = true;
+		notes.visible = true;
+		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
+		if(showTime) {
+	     	timeBar.visible = true;
+	     	timeBarBG.visible = true;
+	     	timeTxt.visible = true;
+		}
+	}
+
+	function hideHUDFade() // DONT USE THIS AT STEP 0!!!
+	{
+		FlxTween.tween(camHUD, {alpha:0}, 1);
+	}
+	
+	function showHUDFade()
+	{
+		FlxTween.tween(camHUD, {alpha:1}, 1);
 	}
 
 	var trainMoving:Bool = false;

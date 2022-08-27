@@ -5469,6 +5469,7 @@ class PlayState extends MusicBeatState
 			songinfoBar.visible = false;
 			healthBar.visible = false;
 			healthBarBG.visible = false;
+			healthBarOverlay.visible = false;
 			iconP1.visible = false;
 			iconP2.visible = false;
 		} 
@@ -5490,6 +5491,7 @@ class PlayState extends MusicBeatState
 			songinfoBar.visible = true;
 			healthBar.visible = true;
 			healthBarBG.visible = true;
+			healthBarOverlay.visible = true;
 			iconP1.visible = true;
 			iconP2.visible = true;
 		} 
@@ -5511,6 +5513,7 @@ class PlayState extends MusicBeatState
 		if(!ClientPrefs.hideHud) {
 	    	healthBar.visible = false;
 	     	healthBarBG.visible = false;
+	     	healthBarOverlay.visible = false;
 	        iconP1.visible = false;
 	    	iconP2.visible = false;
 		}

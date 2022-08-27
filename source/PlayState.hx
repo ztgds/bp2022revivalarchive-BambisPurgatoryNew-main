@@ -842,7 +842,7 @@ class PlayState extends MusicBeatState
 					gridBG.antialiasing = true;
 					gridBG.scrollFactor.set(0.6, 0.6);
 					gridBG.active = true;
-					gridBG.alpha = 0.55;
+					gridBG.alpha = 0.35;
 					gridBG.scale.set(1.5, 1.5);
 					gridBG.screenCenter(X);
 	
@@ -851,9 +851,9 @@ class PlayState extends MusicBeatState
 					//if(ClientPrefs.waving)
 				//	{
 						var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
-						testshader.waveAmplitude = 0.1;
+						testshader.waveAmplitude = 0.075;
 						testshader.waveFrequency = 5;
-						testshader.waveSpeed = 2;
+						testshader.waveSpeed = 0.15;
 						gridBG.shader = testshader.shader;
 						curbg = gridBG;
 				//	}
@@ -3573,10 +3573,9 @@ class PlayState extends MusicBeatState
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 
-		switch(curStage) {
-			case 'bambersHell':
-	        	gridSine += 180 * elapsed;
-	        	gridBG.alpha = 0.55 - Math.sin((Math.PI * gridSine) / 180);
+		if (curStage.toLowerCase() == 'bambershell') {
+	    	gridSine += 180 * elapsed;
+	    	gridBG.alpha = 1 - Math.sin((Math.PI * gridSine) / 180);
 		}
 
 		if (controls.PAUSE && startedCountdown && canPause)

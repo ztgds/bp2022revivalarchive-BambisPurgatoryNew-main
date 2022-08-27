@@ -853,7 +853,7 @@ class PlayState extends MusicBeatState
 						var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
 						testshader.waveAmplitude = 0.075;
 						testshader.waveFrequency = 5;
-						testshader.waveSpeed = 0.15;
+						testshader.waveSpeed = 0.65;
 						gridBG.shader = testshader.shader;
 						curbg = gridBG;
 				//	}
@@ -3573,11 +3573,6 @@ class PlayState extends MusicBeatState
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
 		}
 
-		if (curStage.toLowerCase() == 'bambershell') {
-	    	gridSine += 180 * elapsed;
-	    	gridBG.alpha = 1 - Math.sin((Math.PI * gridSine) / 180);
-		}
-
 		if (controls.PAUSE && startedCountdown && canPause)
 		{
 			var ret:Dynamic = callOnLuas('onPause', [], false);
@@ -5781,6 +5776,12 @@ class PlayState extends MusicBeatState
 				dad.dance();
 			//	dad.playAnim('idle', true);
 			}
+		}
+		if (curStage.toLowerCase() == 'bambershell') {
+			if(curBeat % 16 == 4)
+		    	FlxTween.tween(gridBG, {alpha: 0.5}, 3.5, {ease: FlxEase.circOut});
+			if(curBeat % 16 == 4)
+		    	FlxTween.tween(gridBG, {alpha: 0.25}, 3.5, {ease: FlxEase.circOut});
 		}
 
 		switch (curStage)

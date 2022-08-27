@@ -343,6 +343,15 @@ class PlayState extends MusicBeatState
 	private var keysArray:Array<Dynamic>;
 	private var controlArray:Array<String>;
 
+	// rsod bullshit //
+	var rsod:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('rsod'));
+	var notResponding:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('nr'));
+	var laggingRSOD:Bool = false;
+
+	// crap for stages !! //
+	var gridSine:Float = 0;
+	var gridBG:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('bpASSets/purgatory/grid')); // for the purgatory (i like to call that stage that, dont take this as the canon name, i know you're watching silly funkipedia editor.)
+
 	var precacheList:Map<String, String> = new Map<String, String>();
 
 	override public function create()
@@ -614,73 +623,6 @@ class PlayState extends MusicBeatState
 				curbg = bg;*/
 				}
 			}
-
-		case 'bambersHell':
-			{
-				defaultCamZoom = 0.7;
-				curStage = 'bambersHell';
-				var bg:BGSprite = new BGSprite('bambi/purgatory/graysky', -600, -200, 0.2, 0.2);
-				bg.antialiasing = false;
-				bg.scrollFactor.set(0, 0);
-				bg.active = true;
-				add(bg);
-	
-				var bgshit:BGSprite = new BGSprite('bambi/purgatory/3d_Objects', -600, -200, 0.7, 0.7);
-				bgshit.setGraphicSize(Std.int(bgshit.width * 1.25));
-				bgshit.updateHitbox();
-				add(bgshit);
-	
-				var bgshit2:BGSprite = new BGSprite('bambi/purgatory/3dBG_Objects', -600, -200, 0.5, 0.5);
-				bgshit2.setGraphicSize(Std.int(bgshit2.width * 1.2));
-				bgshit2.updateHitbox();
-				add(bgshit2);
-			}
-
-		case '3dComputer':
-			{
-				defaultCamZoom = 0.75;
-				curStage = '3dComputer';
-				// wtf is this for
-				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('bambi/purgatory/billgates/computer'));
-				bg.antialiasing = true;
-				bg.scrollFactor.set(0.6, 0.6);
-				bg.active = true;
-
-				add(bg);
-				if(ClientPrefs.flashing /*ClientPrefs,waving*/)
-				{
-				// below code assumes shaders are always enabled which is bad
-				/*var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
-				testshader.waveAmplitude = 0.1;
-				testshader.waveFrequency = 5;
-				testshader.waveSpeed = 2;
-				bg.shader = testshader.shader;
-				curbg = bg;*/
-				}
-			}
-
-
-		case '3dScary':
-			{
-				defaultCamZoom = 0.85;
-				curStage = '3dScary';
-				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('dave/scarybg'));
-				bg.antialiasing = true;
-				bg.scrollFactor.set(0.6, 0.6);
-				bg.active = true;
-
-				add(bg);
-				if(ClientPrefs.flashing /*ClientPrefs,waving*/)
-				{
-				// below code assumes shaders are always enabled which is bad
-			/*	var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
-				testshader.waveAmplitude = 0.1;
-				testshader.waveFrequency = 5;
-				testshader.waveSpeed = 2;
-				bg.shader = testshader.shader;
-				curbg = bg;*/
-				}
-			}
 		case 'farmDay':
 			{
 				defaultCamZoom = 0.85;
@@ -866,6 +808,121 @@ class PlayState extends MusicBeatState
 				add(fence);
 				add(sign);
 	        }
+
+			// BP ZONE //
+			case 'bobuRsod':
+				defaultCamZoom = 0.755;
+				curStage = 'bobuRsod';
+				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('bpASSets/bombu/scaryooo'));
+				bg.antialiasing = true;
+				bg.scrollFactor.set(0.6, 0.6);
+				bg.active = true;
+				bg.scale.set(2.5, 2.5);
+
+				add(bg);
+
+				//if(ClientPrefs.waving)
+			//	{
+			    	var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
+					testshader.waveAmplitude = 0.1;
+					testshader.waveFrequency = 5;
+					testshader.waveSpeed = 2;
+					bg.shader = testshader.shader;
+					curbg = bg;
+			//	}
+
+			case 'bambersHell':
+				{
+					defaultCamZoom = 0.7;
+					curStage = 'bambersHell';
+					defaultCamZoom = 0.755;
+					curStage = 'bobuRsod';
+
+					gridBG = new FlxSprite(-600, -200).loadGraphic(Paths.image('bpASSets/purgatory/grid'));
+					gridBG.antialiasing = true;
+					gridBG.scrollFactor.set(0.6, 0.6);
+					gridBG.active = true;
+					gridBG.alpha = 0.55;
+					gridBG.scale.set(1.5, 1.5);
+					gridBG.screenCenter(X);
+	
+					add(gridBG);
+	
+					//if(ClientPrefs.waving)
+				//	{
+						var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
+						testshader.waveAmplitude = 0.1;
+						testshader.waveFrequency = 5;
+						testshader.waveSpeed = 2;
+						gridBG.shader = testshader.shader;
+						curbg = gridBG;
+				//	}
+				
+					var bg:BGSprite = new BGSprite('bpASSets/purgatory/graysky', -600, -200, 0.2, 0.2);
+					bg.antialiasing = false;
+					bg.scrollFactor.set(0, 0);
+					bg.active = true;
+					bg.alpha = 0.25;
+					add(bg);
+		
+					var bgshit:BGSprite = new BGSprite('bpASSets/purgatory/3d_Objects', -600, -200, 0.7, 0.7);
+					bgshit.setGraphicSize(Std.int(bgshit.width * 1.25));
+					bgshit.updateHitbox();
+					add(bgshit);
+		
+					var bgshit2:BGSprite = new BGSprite('bpASSets/purgatory/3dBG_Objects', -600, -200, 0.5, 0.5);
+					bgshit2.setGraphicSize(Std.int(bgshit2.width * 1.2));
+					bgshit2.updateHitbox();
+					add(bgshit2);
+				}
+	
+			case '3dComputer':
+				{
+					defaultCamZoom = 0.75;
+					curStage = '3dComputer';
+					// wtf is this for
+					var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('bpASSets/purgatory/billgates/computer'));
+					bg.antialiasing = true;
+					bg.scrollFactor.set(0.6, 0.6);
+					bg.active = true;
+	
+					add(bg);
+					//if(ClientPrefs.flashing /*ClientPrefs,waving*/)
+				//	{
+					// below code assumes shaders are always enabled which is bad
+					var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
+					testshader.waveAmplitude = 0.1;
+					testshader.waveFrequency = 5;
+					testshader.waveSpeed = 2;
+					bg.shader = testshader.shader;
+					curbg = bg;
+				//	}
+				}
+	
+	
+			case '3dScary':
+				{
+					defaultCamZoom = 0.85;
+					curStage = '3dScary';
+					var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('dave/scarybg'));
+					bg.antialiasing = true;
+					bg.scrollFactor.set(0.6, 0.6);
+					bg.active = true;
+	
+					add(bg);
+					//if(ClientPrefs.flashing /*ClientPrefs,waving*/)
+				//	{
+					// below code assumes shaders are always enabled which is bad
+					var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
+					testshader.waveAmplitude = 0.1;
+					testshader.waveFrequency = 5;
+					testshader.waveSpeed = 2;
+					bg.shader = testshader.shader;
+					curbg = bg;
+					//}
+				}
+			// ends here //
+
 			case 'stage': //Week 1
 				var bg:BGSprite = new BGSprite('stageback', -600, -200, 0.9, 0.9);
 				add(bg);
@@ -1572,7 +1629,7 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 		reloadHealthBarColors();
 
-		songinfoBar = new FlxText(5, FlxG.height - 30, 0, SONG.song + ' - ' + CoolUtil.difficultyString(), 20);
+		songinfoBar = new FlxText(5, FlxG.height - 30, 0, SONG.song, 20);
 		if(chartingMode)
 			songinfoBar.text += ' [CHARTING MODE]';
 		songinfoBar.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -3514,6 +3571,12 @@ class PlayState extends MusicBeatState
 		if(botplayTxt.visible) {
 			botplaySine += 180 * elapsed;
 			botplayTxt.alpha = 1 - Math.sin((Math.PI * botplaySine) / 180);
+		}
+
+		switch(curStage) {
+			case 'bambersHell':
+	        	gridSine += 180 * elapsed;
+	        	gridBG.alpha = 0.55 - Math.sin((Math.PI * gridSine) / 180);
 		}
 
 		if (controls.PAUSE && startedCountdown && canPause)

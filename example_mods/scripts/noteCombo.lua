@@ -64,8 +64,7 @@ function onUpdate()
     if getPropertyFromClass('ClientPrefs', 'noteCombo') then
         if lastMustHit ~= mustHitSection then
             lastMustHit = mustHitSection
-            if not lastMustHit and noteHits > 5 and
-                (curBeat % 4 == 0 or curBeat % 6 == 0) then
+            if not lastMustHit and (curBeat % 4 == 0 or curBeat % 6 == 0) then
                 playSound('noteComboSound')
     
                 setProperty('noteCombo.visible', true)

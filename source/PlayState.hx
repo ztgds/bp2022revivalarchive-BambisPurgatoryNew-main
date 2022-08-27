@@ -842,7 +842,6 @@ class PlayState extends MusicBeatState
 					gridBG.antialiasing = true;
 					gridBG.scrollFactor.set(0.6, 0.6);
 					gridBG.active = true;
-					gridBG.alpha = 0.35;
 					gridBG.scale.set(1.5, 1.5);
 					gridBG.screenCenter(X);
 	
@@ -5778,9 +5777,9 @@ class PlayState extends MusicBeatState
 			}
 		}
 		if (curStage.toLowerCase() == 'bambershell') {
-			if(curBeat % 16 == 4)
+			if(curBeat % 16 == 8)
 		    	FlxTween.tween(gridBG, {alpha: 0.5}, 3.5, {ease: FlxEase.circOut});
-			if(curBeat % 16 == 4)
+			if(curBeat % 16 == 0)
 		    	FlxTween.tween(gridBG, {alpha: 0.25}, 3.5, {ease: FlxEase.circOut});
 		}
 

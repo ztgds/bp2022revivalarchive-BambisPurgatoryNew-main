@@ -229,7 +229,7 @@ class PlayState extends MusicBeatState
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
-	public var cameraSpeed:Float = 1;
+	public var cameraSpeed:Float = 2;
 
 	var dialogue:Array<String> = ['blah blah blah', 'coolswag'];
 	var dialogueJson:DialogueFile = null;
@@ -348,9 +348,12 @@ class PlayState extends MusicBeatState
 	var notResponding:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('nr'));
 	var laggingRSOD:Bool = false;
 
-	// crap for stages !! //
+	// stuff for the stages !! //
+	var gridBG:FlxSprite;
 	var gridSine:Float = 0;
-	var gridBG:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('bpASSets/purgatory/grid')); // for the purgatory (i like to call that stage that, dont take this as the canon name, i know you're watching silly funkipedia editor.)
+	var bgshitH:BGSprite;
+	var bgshitH2:BGSprite;
+	var cloudsH:BGSprite;
 
 	var precacheList:Map<String, String> = new Map<String, String>();
 
@@ -462,7 +465,7 @@ class PlayState extends MusicBeatState
 		var songName:String = Paths.formatToSongPath(SONG.song);
 
 		curStage = SONG.stage;
-		//trace('stage is: ' + curStage);
+		#if debug trace('hey ur stage is: ' + curStage); #end
 		if(SONG.stage == null || SONG.stage.length < 1) {
 			switch (songName)
 			{
@@ -503,7 +506,7 @@ class PlayState extends MusicBeatState
 				camera_boyfriend: [0, 0],
 				camera_opponent: [0, 0],
 				camera_girlfriend: [0, 0],
-				camera_speed: 1
+				camera_speed: 2
 			};
 		}
 
@@ -850,29 +853,41 @@ class PlayState extends MusicBeatState
 					//if(ClientPrefs.waving)
 				//	{
 						var testshader:Shaders.GlitchEffect = new Shaders.GlitchEffect();
-						testshader.waveAmplitude = 0.075;
+						testshader.waveAmplitude = 0.095;
 						testshader.waveFrequency = 5;
-						testshader.waveSpeed = 0.65;
+						testshader.waveSpeed = 1.15;
 						gridBG.shader = testshader.shader;
 						curbg = gridBG;
 				//	}
 				
-					var bg:BGSprite = new BGSprite('bpASSets/purgatory/graysky', -600, -200, 0.2, 0.2);
-					bg.antialiasing = false;
-					bg.scrollFactor.set(0, 0);
-					bg.active = true;
-					bg.alpha = 0.25;
-					add(bg);
+					var bgHELL:BGSprite = new BGSprite('bpASSets/purgatory/graysky', -600, -200, 0.2, 0.2);
+					bgHELL.antialiasing = false;
+					bgHELL.scrollFactor.set(0, 0);
+					bgHELL.screenCenter(X);
+					bgHELL.scale.set(10, 10);
+					bgHELL.alpha = 0.85;
+					add(bgHELL);
 		
-					var bgshit:BGSprite = new BGSprite('bpASSets/purgatory/3d_Objects', -600, -200, 0.7, 0.7);
-					bgshit.setGraphicSize(Std.int(bgshit.width * 1.25));
-					bgshit.updateHitbox();
-					add(bgshit);
+					bgshitH = new BGSprite('bpASSets/purgatory/3d_Objects', -600, -200, 0.7, 0.7);
+					bgshitH.setGraphicSize(Std.int(bgshitH.width * 1.25));
+					bgshitH.updateHitbox();
+				    //bgshitH.screenCenter(X);
+					bgshitH.scale.set(1.25, 1.25);
+					add(bgshitH);
 		
-					var bgshit2:BGSprite = new BGSprite('bpASSets/purgatory/3dBG_Objects', -600, -200, 0.5, 0.5);
-					bgshit2.setGraphicSize(Std.int(bgshit2.width * 1.2));
-					bgshit2.updateHitbox();
-					add(bgshit2);
+					bgshitH2 = new BGSprite('bpASSets/purgatory/3dBG_Objects', -600, -200, 0.5, 0.5);
+					bgshitH2.setGraphicSize(Std.int(bgshitH2.width * 1.2));
+					bgshitH2.updateHitbox();
+					bgshitH2.screenCenter(X);
+					bgshitH2.scale.set(1.5, 1.5);
+					add(bgshitH2);
+
+					cloudsH = new BGSprite('bpASSets/purgatory/scaryclouds', -600, -200, 0.2, 0.2);
+					cloudsH.updateHitbox();
+					cloudsH.screenCenter(X);
+					cloudsH.antialiasing = true;
+					cloudsH.scale.set(1.45, 1.55);
+					add(cloudsH);
 				}
 	
 			case '3dComputer':
@@ -2392,7 +2407,7 @@ class PlayState extends MusicBeatState
 					camFollow.set(camPosX, camPosY);
 					camFollowPos.setPosition(camPosX, camPosY);
 					FlxG.camera.zoom = 0.8;
-					cameraSpeed = 1;
+					cameraSpeed = 2;
 
 					calledTimes++;
 					if (calledTimes > 1)
@@ -2745,9 +2760,10 @@ class PlayState extends MusicBeatState
 			if(scoreTxtTween != null) {
 				scoreTxtTween.cancel();
 			}
-			scoreTxt.scale.x = 1.075;
-			scoreTxt.scale.y = 1.075;
-			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.2, {
+			scoreTxt.scale.x = 1.055;
+			scoreTxt.scale.y = 1.055;
+			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.095, {
+				ease: FlxEase.circOut,
 				onComplete: function(twn:FlxTween) {
 					scoreTxtTween = null;
 				}
@@ -3319,6 +3335,36 @@ class PlayState extends MusicBeatState
 			iconP1.swapOldIcon();
 		}*/
 		callOnLuas('onUpdate', [elapsed]);
+
+		if (SONG.stage == 'bambersHell') { // curStage didnt work for some reason wtf
+			gridSine += 180 * elapsed;
+			gridBG.alpha = 1 - Math.sin((Math.PI * gridSine) / 180);
+
+			bgshitH.y += (Math.sin(elapsedtime) * 0.55);
+			bgshitH2.y += (Math.sin(elapsedtime) * 0.5);
+			cloudsH.x += (Math.sin(elapsedtime) * 0.75);
+		}
+
+		switch (SONG.stage) {
+			// some stuff //
+			case '3dRed' | '3dScary' | '3dFucked' | 'houseNight' | 'houseroof' | 'farmNight': // Dark character thing
+			    if (SONG.player2 != 'bambi-god2d') dad.color = 0xFF878787;
+                gf.color = 0xFF878787;
+                if(!boyfriend.curCharacter.startsWith('golden-tristan')) boyfriend.color = 0xFF878787;
+			case 'spooky': // Darker character thing
+				dad.color = 0xFF383838;
+				gf.color = 0xFF383838;
+				if(!boyfriend.curCharacter.startsWith('golden-tristan')) boyfriend.color = 0xFF383838;
+			case 'bambersHell': // glowing guy
+				gf.color = 0xFF878787;
+				if(!boyfriend.curCharacter.startsWith('golden-tristan'))
+					boyfriend.color = 0xFF878787;
+			case 'farmSunset' | 'houseSunset': // sunset !!
+				dad.color = 0xFFFF8F65;
+				gf.color = 0xFFFF8F65;
+		    	boyfriend.color = 0xFFFF8F65;
+			// ends //
+		}
 
 		if(funnyFloatyBoys.contains(dad.curCharacter.toLowerCase()) && canFloat) {
 			dad.y += (Math.sin(elapsedtime) * 0.6);
@@ -5778,12 +5824,6 @@ class PlayState extends MusicBeatState
 				dad.dance();
 			//	dad.playAnim('idle', true);
 			}
-		}
-		if (curStage.toLowerCase() == 'bambershell') {
-			if(curBeat % 16 == 8)
-		    	FlxTween.tween(gridBG, {alpha: 0.5}, 3.5, {ease: FlxEase.circOut});
-			if(curBeat % 16 == 0)
-		    	FlxTween.tween(gridBG, {alpha: 0.25}, 3.5, {ease: FlxEase.circOut});
 		}
 
 		switch (curStage)

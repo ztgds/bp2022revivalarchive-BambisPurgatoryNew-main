@@ -194,6 +194,7 @@ class PlayState extends MusicBeatState
 
 	private var timeBarBG:AttachedSprite;
 	public var timeBar:FlxBar;
+	var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
 
 	public var ratingsData:Array<Rating> = [];
 	public var sicks:Int = 0;
@@ -217,9 +218,6 @@ class PlayState extends MusicBeatState
 
 	private var cameraOnDad:Bool = false;
 	private var cameraOnBF:Bool = false;
-
-	private var shakeCam:Bool = false;
-	private var camZoomSnap:Bool = false;
 
 	public var botplaySine:Float = 0;
 	public var botplayTxt:FlxText;
@@ -282,10 +280,16 @@ class PlayState extends MusicBeatState
 	public var songScore:Int = 0;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
+
+	// Texts //
 	public var scoreTxt:FlxText;
 	var songinfoBar:FlxText;
 	var timeTxt:FlxText;
+	var tutorialTxt:FlxText;
+
+	// ASS //
 	var scoreTxtTween:FlxTween;
+
 
 	var notesHitArray:Array<Date> = []; // for the NPS code
 
@@ -304,7 +308,7 @@ class PlayState extends MusicBeatState
 
 	//goofy characters
 	var funnyFloatyBoys:Array<String> = ['dave-3d', 'bambi-3d', 'bambi-unfair', 'expunged', 'bambi-piss-3d', 'bambi-scaryooo', 'bambi-god', 'bambi-god2d', 'bambi-hell', 'bombu', 'bombu-expunged', 'badai', 'gary', 'bamburg', 'bamburg-player'];
-	var funnySideFloatyBoys:Array<String> = ['bombu', 'bombu-expunged'];
+	var funnySideFloatyBoys:Array<String> = ['bombu', 'bombai'];
 	var canSlide:Bool = true;
 	var canFloat:Bool = true;
 	//var dontDarkenChar:Array<String> = ['golden-tristan'];
@@ -343,9 +347,20 @@ class PlayState extends MusicBeatState
 	private var keysArray:Array<Dynamic>;
 	private var controlArray:Array<String>;
 
+	// for camZoomSnap //
+	var camBopVAL:Float = 0.015; //camGame
+	var camHUDBopVAL:Float = 0.05; //camHUD
+
+	// shit that messes with the camera (mostly for like events like eyesores) //
+	private var shakeCam:Bool = false;
+	private var camZoomSnap:Bool = false;
+
+	// idk //
+	var dnbBounce:Bool = true;
+
 	// rsod bullshit //
-	var rsod:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('rsod'));
-	var notResponding:FlxSprite = new FlxSprite(0, 0).loadGraphic(Paths.image('nr'));
+	var rsod:FlxSprite;
+	var notResponding:FlxSprite;
 	var laggingRSOD:Bool = false;
 
 	// stuff for the stages !! //
@@ -816,12 +831,12 @@ class PlayState extends MusicBeatState
 			case 'bobuRsod':
 				defaultCamZoom = 0.755;
 				curStage = 'bobuRsod';
-				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('bpASSets/bombu/scaryooo'));
-				bg.antialiasing = true;
+				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('bpASSets/bombu/rsod/KERNEL_DATA_INPAGE_ERROR'));
+				bg.antialiasing = false;
 				bg.scrollFactor.set(0.6, 0.6);
+				bg.screenCenter(X);
 				bg.active = true;
-				bg.scale.set(2.5, 2.5);
-
+				bg.scale.set(1.75, 1.75);
 				add(bg);
 
 				//if(ClientPrefs.waving)
@@ -1466,7 +1481,6 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.downScroll) strumLine.y = FlxG.height - 150;
 		strumLine.scrollFactor.set();
 
-		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
 		timeTxt.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		timeTxt.scrollFactor.set();
@@ -1500,6 +1514,12 @@ class PlayState extends MusicBeatState
 		add(timeBar);
 		add(timeTxt);
 		timeBarBG.sprTracker = timeBar;
+
+		rsod = new FlxSprite(0, 0).loadGraphic(Paths.image('bpASSets/ui/rsod'));
+		if(SONG.song.toLowerCase() == "rsod") 
+			add(rsod);
+		rsod.visible = false;
+		rsod.cameras = [camHUD];
 
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
@@ -1667,6 +1687,27 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.downScroll) {
 			botplayTxt.y = timeBarBG.y - 78;
 		}
+
+		tutorialTxt = new FlxText(FlxG.width, "", 20);
+		if (!ClientPrefs.downScroll)
+			tutorialTxt.y = healthBarBG.y -= 75;
+		else
+			tutorialTxt.y = healthBarBG.y += 75;
+		tutorialTxt.setFormat(Paths.font("comic.ttf"), 26, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		tutorialTxt.scrollFactor.set();
+		tutorialTxt.borderSize = 1.25;
+		tutorialTxt.cameras = [camHUD];
+		tutorialTxt.alpha = 0;
+		if(SONG.song.toLowerCase() == "rsod") { 
+		    add(tutorialTxt);
+	    	tutorialTxt.text = "Hit the Restart Notes."; 
+	    }
+		tutorialTxt.screenCenter(X);
+
+		notResponding = new FlxSprite(0, 0).loadGraphic(Paths.image('bpASSets/ui/nr'));
+		if(SONG.song.toLowerCase() == "rsod") add(notResponding);
+		notResponding.alpha = 0;
+		notResponding.cameras = [camHUD];
 
 		blackScreendeez.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
@@ -2569,7 +2610,14 @@ class PlayState extends MusicBeatState
 
 			var swagCounter:Int = 0;
 
+			// add songs wich dont have the countdown here //
+			switch (curSong.toLowerCase()) {
+				case 'roundabout':
+			    	skipCountdown = true;
+			}
+			// ass //
 
+			
 			if(startOnTime < 0) startOnTime = 0;
 
 			if (startOnTime > 0) {
@@ -2774,7 +2822,7 @@ class PlayState extends MusicBeatState
 	public function updateScore()
 	{
 		scoreTxt.text =  'NPS: ' + nps
-		+ ' [Max ' + maxNPS + ']' 
+		+ ' (Max ' + maxNPS + ')' 
 		+ ' | ' + 'Score: ' + songScore 
 		+ ' | Combo Breaks: ' + songMisses 
 		+ ' | Accuracy: ' + Highscore.floorDecimal(ratingPercent * 100, 2) + '%' 
@@ -3140,6 +3188,7 @@ class PlayState extends MusicBeatState
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.strumTime, Obj2.strumTime);
 	}
 
+    var assDelayy:Int = 0;
 	public var skipArrowStartTween:Bool = false; //for lua
 	private function generateStaticArrows(player:Int):Void
 	{
@@ -3159,7 +3208,7 @@ class PlayState extends MusicBeatState
 			{
 				//babyArrow.y -= 10;
 				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
+				FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + assDelayy + (0.2 * i)});
 			}
 			else
 			{
@@ -3366,22 +3415,22 @@ class PlayState extends MusicBeatState
 			// ends //
 		}
 
-		if(funnyFloatyBoys.contains(dad.curCharacter.toLowerCase()) && canFloat) {
+		if(funnyFloatyBoys.contains(dad.curCharacter.toLowerCase()) && canFloat && !laggingRSOD) {
 			dad.y += (Math.sin(elapsedtime) * 0.6);
 			if(dad.animation.curAnim.name.startsWith('idle') && cameraOnDad)
 				camFollow.y += (Math.sin(elapsedtime) * 0.6);
 		}
-		if(funnySideFloatyBoys.contains(dad.curCharacter.toLowerCase()) && canSlide) {
+		if(funnySideFloatyBoys.contains(dad.curCharacter.toLowerCase()) && canSlide && !laggingRSOD) {
 			dad.x += (Math.cos(elapsedtime) * 0.6);
 			if(dad.animation.curAnim.name.startsWith('idle') && cameraOnDad)
 				camFollow.x += (Math.sin(elapsedtime) * 0.6);
 		}
-		if(funnyFloatyBoys.contains(boyfriend.curCharacter.toLowerCase()) && canFloat) {
+		if(funnyFloatyBoys.contains(boyfriend.curCharacter.toLowerCase()) && canFloat && !laggingRSOD) {
 			boyfriend.y += (Math.sin(elapsedtime) * 0.6);
 			if(boyfriend.animation.curAnim.name.startsWith('idle') || boyfriend.animation.curAnim.name.endsWith('miss'))
 				if (cameraOnBF) camFollow.y += (Math.sin(elapsedtime) * 0.6);
 		}
-		if(funnySideFloatyBoys.contains(boyfriend.curCharacter.toLowerCase()) && canFloat) {
+		if(funnySideFloatyBoys.contains(boyfriend.curCharacter.toLowerCase()) && canFloat && !laggingRSOD) {
 			boyfriend.x += (Math.sin(elapsedtime) * 0.6);
 			if(boyfriend.animation.curAnim.name.startsWith('idle') || boyfriend.animation.curAnim.name.endsWith('miss'))
 				camFollow.x += (Math.sin(elapsedtime) * 0.6);
@@ -3451,6 +3500,7 @@ class PlayState extends MusicBeatState
 				maxNPS = nps;
 		}
 
+		// MID SONG EVENTS !! //
 		switch (SONG.song.toLowerCase())
 		{
 			case 'rebound':
@@ -3461,7 +3511,94 @@ class PlayState extends MusicBeatState
 					case 15:
 						showonlystrums();
 				}
+		/*case 'shattered':
+			switch (curStep)
+			{
+				case 0:
+					hideshit();
+				case 1:
+					camHUD.alpha = 0;
+					restoreHUDElements();
+				case 120:
+					showHUDFade();
+				case 895:
+					add(blackScreen);
+				case 896:
+					FlxTween.tween(blackScreen, {alpha:0}, 10);
+				case 1024:
+					FlxTween.tween(blackScreen, {alpha:1}, 5);
+				case 1090:
+					FlxTween.tween(blackScreen, {alpha:0}, 2);
+				case 1665:
+					boyfriend.playAnim('hurt', true);
+				case 1792:
+					redGlow.visible = true;
+			}*/
+			case 'rsod':
+				switch (curStep)
+				{
+					case 32:
+						FlxTween.tween(tutorialTxt, {alpha: 1}, 0.35, {ease: FlxEase.cubeInOut});
+					case 80:
+						FlxTween.tween(tutorialTxt, {alpha: 0}, 1.25, {ease: FlxEase.cubeInOut});
+					case 112:
+						remove(tutorialTxt);
+					case 368 | 1167 | 2192:
+						FlxTween.tween(notResponding, {alpha: 0.5}, 0.5);
+						laggingRSOD = true;		
+						camZooming = false;
+                    case 400 | 1200 | 2224:
+				    	rsod.visible = true;
+						showonlystrums();
+						camHUD.shake(0.0055, 0.35);
+						FlxG.camera.visible = false;
+						camZooming = false;
+						camHUD.zoom = 1;
+						poop();
+						notResponding.alpha = 0;
+					case 401 | 1201 | 2225: // in case the game skips a beat cuz it does that usuallyFUCK YOU FLIXEL
+						rsod.visible = true;
+						showonlystrums();
+						FlxG.camera.visible = false;
+						poop();
+						camZooming = false;
+					case 416 | 1216 | 2240:
+						rsod.visible = false;
+						notResponding.alpha = 0;
+						FlxG.camera.visible = true;
+						camHUD.flash(FlxColor.BLACK, 0.55);
+						FlxG.camera.flash(FlxColor.BLACK, 0.55);
+						restoreHUDElements();
+						camZooming = true;
+						laggingRSOD = false;
+						crap();
+						//resetSprBfAnim(note:Note);
+					case 417 | 1217 | 2241:
+						rsod.visible = false;
+						notResponding.alpha = 0;
+						FlxG.camera.visible = true;
+						restoreHUDElements();
+						laggingRSOD = false;
+						crap();
+						camZooming = true; 
+						// STOP SKIPPING THE FUCKING STEP
+					case 544 | 831 | 1856:
+						camZoomSnap = true;
+					case 799 | 1344 | 2367:
+						camZoomSnap = false;
+					case 815:
+						camZooming = false;
+						camHUD.zoom = 1;
+						defaultCamZoom += 0.0375;
+						FlxTween.tween(FlxG.camera, {zoom: 1.375}, 0.95, {ease: FlxEase.cubeInOut});
+					case 832:
+						camZooming = true;
+					case 2628:
+						camZooming = false;
+				}
+			
 		}
+		// just shitted out my ass //
 
 		switch (curStage)
 		{
@@ -3635,17 +3772,34 @@ class PlayState extends MusicBeatState
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
 
 		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-		iconP1.scale.set(mult, mult);
-		iconP1.updateHitbox();
+		if (!dnbBounce && !laggingRSOD) {
+	    	iconP1.scale.set(mult, mult);
+	    	iconP1.updateHitboxPE();
+		}
 
 		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
-		iconP2.scale.set(mult, mult);
-		iconP2.updateHitbox();
+		if (!dnbBounce && !laggingRSOD) {
+	    	iconP2.scale.set(mult, mult);
+    		iconP2.updateHitboxPE();
+		}
+
+		if (dnbBounce && !laggingRSOD) {
+			iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.8)),Std.int(FlxMath.lerp(150, iconP1.height, 0.8)));
+			iconP1.updateHitbox();
+
+	    	iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.8)),Std.int(FlxMath.lerp(150, iconP2.height, 0.8)));
+			iconP2.updateHitbox();
+		}
 
 		var iconOffset:Int = 26;
 
-		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
-		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
+		if (!dnbBounce) {
+	    	iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) + (150 * iconP1.scale.x - 150) / 2 - iconOffset;
+	    	iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (150 * iconP2.scale.x) / 2 - iconOffset * 2;
+		} else {
+			iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
+			iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
+		}
 
 		if (health > 2)
 			health = 2;
@@ -4404,7 +4558,7 @@ class PlayState extends MusicBeatState
 					case 1:
 						showonlystrums();
 					case 2:
-						showshit();
+						restoreHUDElements();
 				}
 			case 'Hide or Show HUD elements with Fade':
 				var vsEvilCorruptedBambiDay4Id:Int = Std.parseInt(value1);
@@ -4460,15 +4614,11 @@ class PlayState extends MusicBeatState
 		if (!SONG.notes[curSection].mustHitSection)
 		{
 			moveCamera(true);
-			cameraOnDad = true;
-			cameraOnBF = false;
 			callOnLuas('onMoveCamera', ['dad']);
 		}
 		else
 		{
 			moveCamera(false);
-			cameraOnDad = false;
-			cameraOnBF = true;
 			callOnLuas('onMoveCamera', ['boyfriend']);
 		}
 	}
@@ -4482,10 +4632,15 @@ class PlayState extends MusicBeatState
 			camFollow.x += dad.cameraPosition[0] + opponentCameraOffset[0];
 			camFollow.y += dad.cameraPosition[1] + opponentCameraOffset[1];
 
+			cameraOnDad = true;
+			cameraOnBF = false;
+
 			if (SONG.song.toLowerCase() == 'rebound' || SONG.song.toLowerCase() == 'disposition' || SONG.song.toLowerCase() == 'upheaval')
-			{
 				defaultCamZoom = 0.55;
-			}
+
+			if(SONG.song.toLowerCase() == 'rsod' && camZooming)
+				defaultCamZoom = 0.475;
+
 			tweenCamIn();
 		}
 		else
@@ -4493,6 +4648,9 @@ class PlayState extends MusicBeatState
 			camFollow.set(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
 			camFollow.x -= boyfriend.cameraPosition[0] - boyfriendCameraOffset[0];
 			camFollow.y += boyfriend.cameraPosition[1] + boyfriendCameraOffset[1];
+
+			cameraOnDad = false;
+			cameraOnBF = true;
 
 			if (Paths.formatToSongPath(SONG.song) == 'tutorial' && cameraTwn == null && FlxG.camera.zoom != 1)
 			{
@@ -4505,9 +4663,10 @@ class PlayState extends MusicBeatState
 			}
 
 			if (SONG.song.toLowerCase() == 'rebound' || SONG.song.toLowerCase() == 'disposition' || SONG.song.toLowerCase() == 'upheaval')
-			{
 				defaultCamZoom = 0.7;
-			}
+
+			if(SONG.song.toLowerCase() == 'rsod' && camZooming)
+				defaultCamZoom = 0.755;
 		}
 	}
 
@@ -5194,9 +5353,27 @@ class PlayState extends MusicBeatState
 		
 		if(instakillOnMiss)
 		{
-			vocals.volume = 0;
+			if(daNote.noteType != 'Restart PC Note')
+				vocals.volume = 0;
+
 			doDeathCheck(true);
 		}
+
+		if(!daNote.noMissAnimation)
+		{
+			switch(daNote.noteType) {
+				case 'Restart PC Note': //used for rsod
+				 	camHUD.flash(FlxColor.BLACK, 4.5, null, true);
+					camHUD.shake(0.0055, 0.35);
+					FlxG.camera.flash(FlxColor.BLACK, 1, null, true);
+					health -= 1;
+					camHUD.zoom = 1.12; // no += cuz it would mess with doubles ones
+					camHUD.zoom = 1.1; // no += cuz it would mess with doubles ones
+			}
+		}
+
+		if (combo > 5 && gf != null && gf.animOffsets.exists('sad'))
+			gf.playAnim('sad');
 
 		//For testing purposes
 		//trace(daNote.missHealth);
@@ -5206,6 +5383,8 @@ class PlayState extends MusicBeatState
 
 		totalPlayed++;
 		RecalculateRating(true);
+
+		FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 
 		var char:Character = boyfriend;
 		if(daNote.gfNote) {
@@ -5378,6 +5557,15 @@ class PlayState extends MusicBeatState
 				return;
 			}
 
+			if(!note.noMissAnimation)
+			{
+				switch(note.noteType) {
+					case 'Restart PC Note': //used for rsod
+						camHUD.shake(0.0055, 0.35);
+						camHUD.zoom = 1.115;
+						FlxG.camera.zoom += 0.055;
+				}
+			}
 			if (!note.isSustainNote)
 			{
 				combo += 1;
@@ -5531,7 +5719,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 	
-	function showshit()
+	function restoreHUDElements()
 	{
 		if(!ClientPrefs.hideHud) {
 			songinfoBar.visible = true;
@@ -5583,6 +5771,27 @@ class PlayState extends MusicBeatState
 	function showHUDFade()
 	{
 		FlxTween.tween(camHUD, {alpha:1}, 1);
+	}
+
+	function poop() {
+		if(showTime) {
+			timeBar.visible = false;
+			timeBarBG.visible = false;
+			timeTxt.visible = false;
+	    }
+		showCombo = false;
+		showComboNum = false;
+		showRating = false;
+	}
+	function crap() {
+		if(showTime) {
+			timeBar.visible = true;
+			timeBarBG.visible = true;
+			timeTxt.visible = true;
+	    }
+		showCombo = true;
+		showComboNum = true;
+		showRating = true;
 	}
 
 	var trainMoving:Bool = false;
@@ -5799,17 +6008,34 @@ class PlayState extends MusicBeatState
 			notes.sort(FlxSort.byY, ClientPrefs.downScroll ? FlxSort.ASCENDING : FlxSort.DESCENDING);
 		}
 
-		iconP1.scale.set(1.2, 1.2);
-		iconP2.scale.set(1.2, 1.2);
+		var funny:Float = (healthBar.percent * 0.01) + 0.01;
+		if (!dnbBounce && !laggingRSOD) {
 
-		iconP1.updateHitbox();
-		iconP2.updateHitbox();
+			iconP1.scale.set(1.2, 1.2);
+			iconP1.updateHitbox();
+
+			iconP2.scale.set(1.2, 1.2);		
+			iconP2.updateHitbox();
+		}
+		if (dnbBounce && !laggingRSOD) {
+			iconP1.setGraphicSize(Std.int(iconP1.width + (50 * (2 - funny))),Std.int(iconP2.height - (25 * (2 - funny))));
+			iconP1.updateHitbox();
+
+	    	iconP2.setGraphicSize(Std.int(iconP2.width + (50 * (2 - funny))),Std.int(iconP2.height - (25 * (2 - funny))));
+	     	iconP2.updateHitbox();
+		}
+
+		if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && camZoomSnap && !laggingRSOD)
+		{
+			FlxG.camera.zoom += camBopVAL * camZoomingMult;
+			camHUD.zoom += camHUDBopVAL * camZoomingMult;
+		}
 
 		if (gf != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && gf.animation.curAnim != null && !gf.animation.curAnim.name.startsWith("sing") && !gf.stunned)
 		{
 			gf.dance();
 		}
-		if(curBeat % 2 == 0) {
+		if(curBeat % 2 == 0 && !laggingRSOD) {
 			FlxTween.angle(iconP1, -15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
 			FlxTween.angle(iconP2, 15, 0, Conductor.crochet / 1300 * gfSpeed, {ease: FlxEase.quadOut});
 
@@ -5897,7 +6123,7 @@ class PlayState extends MusicBeatState
 				moveCameraSection();
 			}
 
-			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms)
+			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && !camZoomSnap && !laggingRSOD)
 			{
 				FlxG.camera.zoom += 0.015 * camZoomingMult;
 				camHUD.zoom += 0.05 * camZoomingMult;

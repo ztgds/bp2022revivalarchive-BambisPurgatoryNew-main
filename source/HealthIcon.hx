@@ -1,6 +1,7 @@
 package;
 
 import flixel.FlxSprite;
+import flixel.math.FlxMath;
 import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
@@ -24,6 +25,7 @@ class HealthIcon extends FlxSprite
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		offset.set(Std.int(FlxMath.bound(width - 150,0)),Std.int(FlxMath.bound(height - 150,0))); // this is for the dnb bounce to work properly //
 
 		if (sprTracker != null)
 			setPosition(sprTracker.x + sprTracker.width + 10, sprTracker.y - 30);
@@ -60,7 +62,7 @@ class HealthIcon extends FlxSprite
 		}
 	}
 
-	override function updateHitbox()
+	public function updateHitboxPE()
 	{
 		super.updateHitbox();
 		offset.x = iconOffsets[0];

@@ -1,390 +1,476 @@
 {
 	"song": {
-		"speed": 3.2,
-		"stage": "3dFucked",
-		"player1": "bf",
-		"player2": "bombu",
-		"player3": null,
 		"events": [
 			[
-				12827.5862068966,
+				1600,
 				[
 					[
 						"Add Camera Zoom",
-						"0.03",
+						"",
 						""
 					]
 				]
 			],
 			[
-				13034.4827586207,
+				1733.33333333333,
 				[
 					[
 						"Add Camera Zoom",
-						"-0.03",
+						"",
 						""
 					]
 				]
 			],
 			[
-				13137.9310344828,
+				1866.66666666667,
 				[
 					[
 						"Add Camera Zoom",
-						"0.03",
+						"",
 						""
 					]
 				]
 			],
 			[
-				105931.034482759,
-				[
-					[
-						"TweenSpin",
-						"10",
-						"360"
-					]
-				]
-			],
-			[
-				105951.867816092,
+				2028.33333333333,
 				[
 					[
 						"Add Camera Zoom",
-						"0.25",
-						"0.25"
-					]
-				]
-			],
-			[
-				105972.701149425,
-				[
-					[
-						"Flash effect",
-						"0",
+						"",
 						""
 					]
 				]
 			],
 			[
-				111264.367816092,
+				24533.3333333333,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				24533.3333333333,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				24533.3333333333,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				24533.3333333333,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				24533.3333333333,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				24533.3333333333,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				24533.3333333333,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				24566.6666666667,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				27733.3333333333,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				27733.3333333333,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				27733.3333333333,
+				[
+					[
+						"Reset Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				27755.5555555555,
+				[
+					[
+						"Reset Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				77866.6666666666,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				77866.6666666666,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				77866.6666666666,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				77866.6666666666,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				77866.6666666666,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				77866.6666666666,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				77866.6666666666,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				77900,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				81066.6666666666,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				81066.6666666666,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				81066.6666666666,
+				[
+					[
+						"Reset Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				89600,
 				[
 					[
 						"Add Camera Zoom",
-						"0.25",
-						"0"
+						"0.85",
+						"0.055"
 					]
 				]
 			],
 			[
-				111285.201149425,
-				[
-					[
-						"Screen Shake",
-						"0.65, 0.0075",
-						""
-					]
-				]
-			],
-			[
-				111764.367816092,
-				[
-					[
-						"Screen Shake",
-						"0.65, -0.0075",
-						""
-					]
-				]
-			],
-			[
-				111785.201149425,
+				98933.3333333334,
 				[
 					[
 						"Add Camera Zoom",
-						"0.25",
-						"0"
-					]
-				]
-			],
-			[
-				112264.367816092,
-				[
-					[
-						"Screen Shake",
-						"0.425, 0.0075",
+						"",
 						""
 					]
 				]
 			],
 			[
-				112285.201149425,
+				99066.6666666667,
 				[
 					[
 						"Add Camera Zoom",
-						"0.25",
-						"0"
+						"",
+						""
 					]
 				]
 			],
 			[
-				112597.701149425,
+				103733.333333333,
 				[
 					[
 						"Add Camera Zoom",
-						"0.25",
-						"0"
-					]
-				]
-			],
-			[
-				112618.534482759,
-				[
-					[
-						"Screen Shake",
-						"0.65, 0.0075",
+						"",
 						""
 					]
 				]
 			],
 			[
-				113097.701149425,
-				[
-					[
-						"Screen Shake",
-						"0.65, -0.0075",
-						""
-					]
-				]
-			],
-			[
-				113118.534482759,
+				104266.666666667,
 				[
 					[
 						"Add Camera Zoom",
-						"0.25",
-						"0"
-					]
-				]
-			],
-			[
-				113597.701149425,
-				[
-					[
-						"Screen Shake",
-						"0.425, 0.0075",
+						"",
 						""
 					]
 				]
 			],
 			[
-				113618.534482759,
+				105866.666666667,
 				[
 					[
 						"Add Camera Zoom",
-						"0.25",
-						"0"
+						"",
+						""
 					]
 				]
 			],
 			[
-				113931.034482759,
+				106400,
 				[
 					[
 						"Add Camera Zoom",
-						"0.25",
-						"0"
-					]
-				]
-			],
-			[
-				113951.867816092,
-				[
-					[
-						"Screen Shake",
-						"0.65, 0.0075",
+						"",
 						""
 					]
 				]
 			],
 			[
-				114431.034482759,
+				146133.333333333,
 				[
 					[
-						"Screen Shake",
-						"0.65, -0.0075",
+						"Change Window Title",
+						"",
 						""
 					]
 				]
 			],
 			[
-				114451.867816092,
+				146133.333333333,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				146133.333333333,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				146133.333333333,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				146133.333333333,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				146133.333333333,
+				[
+					[
+						"Change Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				146133.333333333,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				146166.666666667,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				149333.333333333,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				149333.333333333,
+				[
+					[
+						"Change Window Title",
+						"Friday Night Funkin': Technological Gastronomy (Not Responding)",
+						""
+					]
+				]
+			],
+			[
+				149333.333333333,
+				[
+					[
+						"Reset Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				149355.555555556,
+				[
+					[
+						"Reset Window Title",
+						"",
+						""
+					]
+				]
+			],
+			[
+				157866.666666667,
 				[
 					[
 						"Add Camera Zoom",
-						"0.25",
-						"0"
-					]
-				]
-			],
-			[
-				114931.034482759,
-				[
-					[
-						"Screen Shake",
-						"0.425, 0.0075",
-						""
-					]
-				]
-			],
-			[
-				114951.867816092,
-				[
-					[
-						"Add Camera Zoom",
-						"0.25",
-						"0"
-					]
-				]
-			],
-			[
-				115264.367816092,
-				[
-					[
-						"Add Camera Zoom",
-						"0.275",
-						""
-					]
-				]
-			],
-			[
-				115597.701149425,
-				[
-					[
-						"Add Camera Zoom",
-						"-0.275",
-						""
-					]
-				]
-			],
-			[
-				115931.034482759,
-				[
-					[
-						"Add Camera Zoom",
-						"0.275",
-						""
-					]
-				]
-			],
-			[
-				116264.367816092,
-				[
-					[
-						"Add Camera Zoom",
-						"-0.275",
-						""
-					]
-				]
-			],
-			[
-				116285.201149425,
-				[
-					[
-						"Screen Shake",
-						"0.65, 0.0075",
-						""
-					]
-				]
-			],
-			[
-				116597.701149425,
-				[
-					[
-						"Screen Shake",
-						"0.001, 0.001",
-						""
-					]
-				]
-			],
-			[
-				159264.367816092,
-				[
-					[
-						"Screen Shake",
-						"0.001, 0.001",
-						""
-					]
-				]
-			],
-			[
-				180597.701149425,
-				[
-					[
-						"Change Scroll Speed",
-						"1",
-						"0.5"
-					]
-				]
-			],
-			[
-				180618.534482759,
-				[
-					[
-						"Thunderstorm type black screen",
-						"1",
-						""
-					]
-				]
-			],
-			[
-				191264.367816092,
-				[
-					[
-						"Thunderstorm type black screen",
-						"0",
-						""
-					]
-				]
-			],
-			[
-				191285.201149426,
-				[
-					[
-						"Flash effect",
-						"0",
-						""
-					]
-				]
-			],
-			[
-				193931.034482759,
-				[
-					[
-						"Add Camera Zoom",
-						"0.05",
-						"0.3"
-					]
-				]
-			],
-			[
-				193941.451149426,
-				[
-					[
-						"Hide or Show HUD elements",
-						"1",
-						""
+						"0.095",
+						"0.085"
 					]
 				]
 			]
-		],
-		"notes": [],
-		"splashSkin": null,
-		"validScore": false,
-		"gfVersion": "gf",
-		"bpm": 145,
-		"arrowSkin": "polynote",
-		"needsVoices": true,
-		"isSkinSep": true,
-		"song": "Technology"
+		]
 	}
 }

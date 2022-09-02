@@ -853,8 +853,8 @@ class PlayState extends MusicBeatState
 				{
 					defaultCamZoom = 0.7;
 					curStage = 'bambersHell';
-					defaultCamZoom = 0.755;
-					curStage = 'bobuRsod';
+					// defaultCamZoom = 0.755;
+					// curStage = 'bobuRsod';
 
 					gridBG = new FlxSprite(-600, -200).loadGraphic(Paths.image('bpASSets/purgatory/grid'));
 					gridBG.antialiasing = true;

@@ -369,6 +369,7 @@ class PlayState extends MusicBeatState
 	var bgshitH:BGSprite;
 	var bgshitH2:BGSprite;
 	var cloudsH:BGSprite;
+	var bgrsod:FlxSprite;
 
 	var precacheList:Map<String, String> = new Map<String, String>();
 
@@ -831,13 +832,14 @@ class PlayState extends MusicBeatState
 			case 'bobuRsod':
 				defaultCamZoom = 0.755;
 				curStage = 'bobuRsod';
-				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('bpASSets/bombu/rsod/KERNEL_DATA_INPAGE_ERROR'));
-				bg.antialiasing = false;
-				bg.scrollFactor.set(0.6, 0.6);
-				bg.screenCenter(X);
-				bg.active = true;
-				bg.scale.set(1.75, 1.75);
-				add(bg);
+
+				bgrsod = new FlxSprite(-600, -200).loadGraphic(Paths.image('bpASSets/bombu/rsod/KERNEL_DATA_INPAGE_ERROR'));
+			    bgrsod.antialiasing = false;
+				bgrsod.scrollFactor.set(0.6, 0.6);
+				bgrsod.screenCenter(X);
+				bgrsod.active = true;
+				bgrsod.scale.set(1.75, 1.75);
+				add(bgrsod);
 
 				//if(ClientPrefs.waving)
 			//	{
@@ -845,8 +847,8 @@ class PlayState extends MusicBeatState
 					testshader.waveAmplitude = 0.1;
 					testshader.waveFrequency = 5;
 					testshader.waveSpeed = 2;
-					bg.shader = testshader.shader;
-					curbg = bg;
+					bgrsod.shader = testshader.shader;
+					curbg = bgrsod;
 			//	}
 
 			case 'bambersHell':
@@ -1453,7 +1455,7 @@ class PlayState extends MusicBeatState
 		}
 		switch(dad.curCharacter)
 		{
-			case 'bambi-scaryooo' | 'bambi-god' | 'bambi-god2d' | 'bambi-hell' | 'expunged' | 'bombu-expunged':
+			case 'bambi-god' | 'bambi-god2d' | 'expunged':
 				var scaryTrail = new FlxTrail(dad, null, 4, 12, 0.3, 0.069); //nice
 				addBehindDad(scaryTrail);
 		}
@@ -1961,6 +1963,10 @@ class PlayState extends MusicBeatState
 		return false;
 	}
 	#end
+
+	function restoreTitleWin() {
+		openfl.Lib.application.window.title = "Bambi's Purgatory";
+	}
 
 	static function quickSpin(sprite)
 	{
@@ -2803,14 +2809,14 @@ class PlayState extends MusicBeatState
 	}
 
 	function scoreZoom() {
-		if(ClientPrefs.scoreZoom && !cpuControlled) 
+		if(ClientPrefs.scoreZoom && !cpuControlled && !laggingRSOD) 
 		{
 			if(scoreTxtTween != null) {
 				scoreTxtTween.cancel();
 			}
 			scoreTxt.scale.x = 1.065;
 			scoreTxt.scale.y = 1.065;
-			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 1.05, {
+			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 1, {
 				ease: FlxEase.circOut,
 				onComplete: function(twn:FlxTween) {
 					scoreTxtTween = null;
@@ -3534,7 +3540,7 @@ class PlayState extends MusicBeatState
 				case 1792:
 					redGlow.visible = true;
 			}*/
-			case 'rsod':
+			case 'rsod': // i should probably organize this one jesus
 				switch (curStep)
 				{
 					case 32:
@@ -3547,6 +3553,8 @@ class PlayState extends MusicBeatState
 						FlxTween.tween(notResponding, {alpha: 0.5}, 0.5);
 						laggingRSOD = true;		
 						camZooming = false;
+						bgrsod.active = false;
+						openfl.Lib.application.window.title = "Bambi's Purgatory (Not Responding)";
                     case 400 | 1200 | 2224:
 				    	rsod.visible = true;
 						showonlystrums();
@@ -3571,7 +3579,9 @@ class PlayState extends MusicBeatState
 						restoreHUDElements();
 						camZooming = true;
 						laggingRSOD = false;
+						bgrsod.active = true;
 						crap();
+						restoreTitleWin();
 						//resetSprBfAnim(note:Note);
 					case 417 | 1217 | 2241:
 						rsod.visible = false;
@@ -3581,6 +3591,8 @@ class PlayState extends MusicBeatState
 						laggingRSOD = false;
 						crap();
 						camZooming = true; 
+						bgrsod.active = true;
+						restoreTitleWin();
 						// STOP SKIPPING THE FUCKING STEP
 					case 544 | 831 | 1856:
 						camZoomSnap = true;
@@ -5473,7 +5485,8 @@ class PlayState extends MusicBeatState
 
 			if(char != null)
 			{
-				char.playAnim(animToPlay, true);
+				if(!laggingRSOD)
+					char.playAnim(animToPlay, true);
 				char.holdTimer = 0;
 			}
 		}
@@ -6185,8 +6198,10 @@ class PlayState extends MusicBeatState
 		}
 
 		if(spr != null) {
-			spr.playAnim('confirm', true);
-			spr.resetAnim = time;
+			if (!laggingRSOD) {
+		    	spr.playAnim('confirm', true);
+		    	spr.resetAnim = time;
+			}
 		}
 	}
 

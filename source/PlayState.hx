@@ -2962,12 +2962,15 @@ class PlayState extends MusicBeatState
 		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 
+		FlxTween.tween(composersText, {x:20}, 1.5, {
+			ease: FlxEase.elasticInOut
+		});
+		FlxTween.tween(composersBG, {x:15}, 1.5, {
+			ease: FlxEase.elasticInOut
+		});
 		// for the credits //
 		for (dicknballs in [composersText, composersBG]) {
 			if (dicknballs != null) {
-				FlxTween.tween(dicknballs, {x:20}, 1.5, {
-					ease: FlxEase.elasticInOut
-				});
 				FlxTween.tween(dicknballs, {x:-1000}, 1.5, {
 					startDelay: 6,
 					onComplete: function(tween:FlxTween) {

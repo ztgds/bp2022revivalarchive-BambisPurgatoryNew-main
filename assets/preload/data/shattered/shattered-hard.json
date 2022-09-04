@@ -16460,7 +16460,13 @@
 		"arrowSkin": "",
 		"needsVoices": true,
 		"validScore": true,
+<<<<<<< HEAD
 		"bpm": 170,
 		"speed": 3.1
+=======
+		"stage": "farmSunset",
+		"speed": 3.1,
+		"bpm": 170
+>>>>>>> f73e500901e819da06e96b70b00f454904e9dca4
 	}
 }

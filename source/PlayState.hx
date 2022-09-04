@@ -277,6 +277,9 @@ class PlayState extends MusicBeatState
 	var tankmanRun:FlxTypedGroup<TankmenBG>;
 	var foregroundSprites:FlxTypedGroup<BGSprite>;
 
+	// the fuckin sunset filter //
+	var colorFilter:BGSprite;
+
 	public var songScore:Int = 0;
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
@@ -597,9 +600,13 @@ class PlayState extends MusicBeatState
 			grass.updateHitbox();
 			add(grass);
 
-			hills.color = 0xFFFF8FB2;
-			gate.color = 0xFFFF8FB2;
-			grass.color = 0xFFFF8FB2;
+			colorFilter = new BGSprite(null, -800, -400, 0, 0);
+			colorFilter.makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), 0xFFFF8FB2);
+			colorFilter.blend = MULTIPLY;
+
+			//hills.color = 0xFFFF8FB2;
+			//gate.color = 0xFFFF8FB2;
+			//grass.color = 0xFFFF8FB2;
 
 		case 'houseNight': //Dave Week
 			var bg:BGSprite = new BGSprite('dave/sky_night', -600, -200, 0.2, 0.2);
@@ -745,13 +752,17 @@ class PlayState extends MusicBeatState
 				sign.scrollFactor.set(1, 1);
 				sign.active = true;
 
-				hills.color = 0xFFF9974C;
-				farm.color = 0xFFF9974C;
-				foreground.color = 0xFFF9974C;
-				cornSet.color = 0xFFF9974C;
-				cornSet2.color = 0xFFF9974C;
-				fence.color = 0xFFF9974C;
-				sign.color = 0xFFF9974C;
+				colorFilter = new BGSprite(null, -800, -400, 0, 0);
+				colorFilter.makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), 0xFFFF8FB2);
+				colorFilter.blend = MULTIPLY;
+
+				//hills.color = 0xFFF9974C;
+				//farm.color = 0xFFF9974C;
+				//foreground.color = 0xFFF9974C;
+				//cornSet.color = 0xFFF9974C;
+				//cornSet2.color = 0xFFF9974C;
+				//fence.color = 0xFFF9974C;
+				//sign.color = 0xFFF9974C;
 
 				add(bg);
 				add(hills);
@@ -1306,6 +1317,8 @@ class PlayState extends MusicBeatState
 				add(halloweenWhite);
 			case 'tank':
 				add(foregroundSprites);
+			case 'houseSunset' | 'farmSunset':
+				add(colorFilter);
 		}
 
 		#if LUA_ALLOWED
@@ -3463,9 +3476,9 @@ class PlayState extends MusicBeatState
 			gridSine += 180 * elapsed;
 			gridBG.alpha = 1 - Math.sin((Math.PI * gridSine) / 180);
 
-			bgshitH.y += (Math.sin(elapsedtime) * 0.55);
-			bgshitH2.y += (Math.sin(elapsedtime) * 0.5);
-			cloudsH.x += (Math.sin(elapsedtime) * 0.75);
+			bgshitH.y += (Math.sin(elapsedtime*0.7) * 0.55);
+			bgshitH2.y += (Math.sin(elapsedtime*0.6) * 0.5);
+			cloudsH.x += (Math.sin(elapsedtime*0.45) * 0.75);
 		}
 
 		switch (SONG.stage) {
@@ -3482,10 +3495,10 @@ class PlayState extends MusicBeatState
 				gf.color = 0xFF878787;
 				if(!boyfriend.curCharacter.startsWith('golden-tristan'))
 					boyfriend.color = 0xFF878787;
-			case 'farmSunset' | 'houseSunset': // sunset !!
+			/* case 'farmSunset' | 'houseSunset': // sunset !!
 				dad.color = 0xFFFF8F65;
 				gf.color = 0xFFFF8F65;
-		    	boyfriend.color = 0xFFFF8F65;
+		    	boyfriend.color = 0xFFFF8F65; */
 			// ends //
 		}
 

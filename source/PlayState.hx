@@ -284,15 +284,18 @@ class PlayState extends MusicBeatState
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 
+	// FlxSprites that arent images lol rofl lmao lol //
+	var composersBG:FlxSprite;
+
 	// Texts //
 	public var scoreTxt:FlxText;
 	var songinfoBar:FlxText;
 	var timeTxt:FlxText;
 	var tutorialTxt:FlxText;
+	var composersText:FlxText;
 
 	// ASS //
 	var scoreTxtTween:FlxTween;
-
 
 	var notesHitArray:Array<Date> = []; // for the NPS code
 
@@ -1719,6 +1722,56 @@ class PlayState extends MusicBeatState
 	    }
 		tutorialTxt.screenCenter(X);
 
+		// stuff for the credits !! //
+		var composersWatermark:String;
+		switch (SONG.song.toLowerCase())
+		{
+			// add pyramix's songs here
+			case 'technology':
+				composersWatermark = 'Pyramix';
+			// add tsu's songs here
+			case 'newest': //troll
+				composersWatermark = 'Tsuchi';
+			// add ville's songs here
+			case 'rascal' | 'gilded':
+				composersWatermark = 'Villezen';
+			// add randomness songs here
+			case 'shattered' | 'triple-threat':
+				composersWatermark = 'Epicrandomness11';
+			// add aadsta's songs here
+			case 'acquaintance':
+				composersWatermark = 'AadstaPinwheel';
+			// shredboi high definition songs here
+			case 'rebound' | 'disposition' | 'roundabout' | 'rsod':
+				composersWatermark = 'ShredBoi';
+			default:
+				composersWatermark = ' ';
+		}
+
+		composersText = new FlxText(20, 40/*hi remember that this is the y pos*/, 0, "", 20);
+		composersText.setFormat(Paths.font("comic.ttf"), 28, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		composersText.borderSize = 1.25;
+		composersText.borderQuality = 2;
+		composersText.y = 200;
+		composersText.x -= 600;
+		composersText.scrollFactor.set();
+		composersText.cameras = [camOther];
+        composersText.text = 'Song by ' + composersWatermark;
+    	if(composersWatermark != ' ')
+	    	add(composersText);
+
+		composersBG = new FlxSprite().makeGraphic(400, 50, FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
+        composersBG.alpha = 0.6;
+		composersBG.y = 200;
+		composersBG.x -= 600;
+		composersBG.scrollFactor.set();
+		composersBG.setGraphicSize(Std.int(composersText.width + 120), 50);
+		composersBG.cameras = [camOther];
+		if(composersWatermark != ' ')
+	    	insert(members.indexOf(composersText), composersBG);
+	    // Ends Here //
+
+		// for rsod //
 		notResponding = new FlxSprite(0, 0).loadGraphic(Paths.image('bpASSets/ui/nr'));
 		if(SONG.song.toLowerCase() == "rsod") add(notResponding);
 		notResponding.alpha = 0;
@@ -2909,6 +2962,25 @@ class PlayState extends MusicBeatState
 		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 
+		FlxTween.tween(composersText, {x:20}, 1.5, {
+			ease: FlxEase.elasticInOut
+		});
+		FlxTween.tween(composersBG, {x:0}, 1.5, {
+			ease: FlxEase.elasticInOut
+		});
+		// for the credits //
+		for (dicknballs in [composersText, composersBG]) {
+			if (dicknballs != null) {
+				FlxTween.tween(dicknballs, {x:-1000}, 1.5, {
+					startDelay: 6,
+					onComplete: function(tween:FlxTween) {
+						remove(dicknballs);
+					},
+					ease: FlxEase.elasticInOut
+				});
+			}
+		}
+
 		switch(curStage)
 		{
 			case 'tank':
@@ -3223,11 +3295,11 @@ class PlayState extends MusicBeatState
 
 			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
 			babyArrow.downScroll = ClientPrefs.downScroll;
-			if (!isStoryMode && !skipArrowStartTween)
+			if (!skipArrowStartTween)
 			{
-				//babyArrow.y -= 10;
+				babyArrow.y -= 10;
 				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {/*y: babyArrow.y + 10,*/ alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + assDelayy + (0.2 * i)});
+				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + assDelayy + (0.2 * i)});
 			}
 			else
 			{
@@ -5737,7 +5809,6 @@ class PlayState extends MusicBeatState
 		grpNoteSplashes.visible = false;
 		notes.visible = false;
 		scoreTxt.visible = false;
-		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
 		if(showTime) {
 	    	timeBar.visible = false;
 	    	timeBarBG.visible = false;
@@ -5759,7 +5830,6 @@ class PlayState extends MusicBeatState
 		grpNoteSplashes.visible = true;
 		notes.visible = true;
 		scoreTxt.visible = true;
-		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
 		if(showTime) {
 	    	timeBar.visible = true;
 	    	timeBarBG.visible = true;
@@ -5781,7 +5851,6 @@ class PlayState extends MusicBeatState
 		strumLineNotes.visible = true;
 		grpNoteSplashes.visible = true;
 		notes.visible = true;
-		var showTime:Bool = (ClientPrefs.timeBarType != 'Disabled');
 		if(showTime) {
 	     	timeBar.visible = true;
 	     	timeBarBG.visible = true;
@@ -5808,6 +5877,10 @@ class PlayState extends MusicBeatState
 		showCombo = false;
 		showComboNum = false;
 		showRating = false;
+		songinfoBar.visible = false;
+		opponentStrums.forEach(function(spr:FlxSprite) {
+			if(ClientPrefs.opponentStrums) spr.alpha = 0;
+		});
 	}
 	function crap() {
 		if(showTime) {
@@ -5818,6 +5891,10 @@ class PlayState extends MusicBeatState
 		showCombo = true;
 		showComboNum = true;
 		showRating = true;
+		songinfoBar.visible = true;
+		opponentStrums.forEach(function(spr:FlxSprite) {
+			if(ClientPrefs.opponentStrums) spr.alpha = 1;
+		});
 	}
 
 	var trainMoving:Bool = false;
@@ -6186,7 +6263,8 @@ class PlayState extends MusicBeatState
 			// had to do this because there is a bug in haxe where Stop != Continue doesnt work
 			var bool:Bool = ret == FunkinLua.Function_Continue;
         	if(!bool && ret != 0) {
-				returnVal = cast ret;
+				//returnVal = cast ret;
+				returnVal = ret;
 			}
 		}
 		#end

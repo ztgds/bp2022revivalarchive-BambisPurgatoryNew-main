@@ -1765,7 +1765,7 @@ class PlayState extends MusicBeatState
 		composersBG.y = 200;
 		composersBG.x -= 600;
 		composersBG.scrollFactor.set();
-			composersBG.setGraphicSize(Std.int(composersText.width + 100), 50);
+		composersBG.setGraphicSize(Std.int(composersText.width + 120), 50);
 		composersBG.cameras = [camOther];
 		if(composersWatermark != ' ')
 	    	insert(members.indexOf(composersText), composersBG);
@@ -2965,7 +2965,7 @@ class PlayState extends MusicBeatState
 		FlxTween.tween(composersText, {x:20}, 1.5, {
 			ease: FlxEase.elasticInOut
 		});
-		FlxTween.tween(composersBG, {x:15}, 1.5, {
+		FlxTween.tween(composersBG, {x:0}, 1.5, {
 			ease: FlxEase.elasticInOut
 		});
 		// for the credits //

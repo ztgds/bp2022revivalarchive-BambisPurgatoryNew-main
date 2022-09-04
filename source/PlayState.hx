@@ -1544,7 +1544,8 @@ class PlayState extends MusicBeatState
 		rsod.visible = false;
 		rsod.cameras = [camHUD];
 
-		altStrumLine = new FlxSprite(0, -100);
+		altStrumLine = new FlxSprite(0, -2000); // they'll never know.....
+		// since they're so high up you'll need to move them down
 
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
@@ -2684,6 +2685,11 @@ class PlayState extends MusicBeatState
 				setOnLuas('defaultOpponentStrumY' + i, opponentStrums.members[i].y);
 				//if(ClientPrefs.middleScroll) opponentStrums.members[i].visible = false;
 			}
+			for (i in 0...altStrums.length) {
+				setOnLuas('defaultAltStrumX' + i, altStrums.members[i].x);
+				setOnLuas('defaultAltStrumY' + i, altStrums.members[i].y);
+				//if(ClientPrefs.middleScroll) opponentStrums.members[i].visible = false;
+			}
 
 			startedCountdown = true;
 			Conductor.songPosition = 0;
@@ -3127,6 +3133,10 @@ class PlayState extends MusicBeatState
 						sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
 						sustainNote.noteType = swagNote.noteType;
 						sustainNote.scrollFactor.set();
+						if (sustainNote.noteType == 'Alt Strum') {
+							sustainNote.scrollFactor.set(1,1);
+							sustainNote.cameras = [camGame];
+						}
 						swagNote.tail.push(sustainNote);
 						sustainNote.parent = swagNote;
 						unspawnNotes.push(sustainNote);
@@ -3312,7 +3322,7 @@ class PlayState extends MusicBeatState
 			if (player != 2)
 				babyArrow = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
 			else {
-				babyArrow = new StrumNote(0, strumLine.y, i, 0);
+				babyArrow = new StrumNote(0, altStrumLine.y, i, 0);
 				babyArrow.scrollFactor.set(1,1);
 			}
 
@@ -5640,7 +5650,10 @@ class PlayState extends MusicBeatState
 		if(note.isSustainNote && !note.animation.curAnim.name.endsWith('end')) {
 			time += 0.15;
 		}
-		StrumPlayAnim(true, Std.int(Math.abs(note.noteData)), time);
+		if(!note.altStrum)
+			StrumPlayAnim(true, Std.int(Math.abs(note.noteData)), time);
+		else
+			StrumPlayAnim(true, Std.int(Math.abs(note.noteData)), time, true);
 		note.hitByOpponent = true;
 
 		callOnLuas('opponentNoteHit', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
@@ -6322,10 +6335,13 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	function StrumPlayAnim(isDad:Bool, id:Int, time:Float) {
+	function StrumPlayAnim(isDad:Bool, id:Int, time:Float, isAlt:Bool = false) {
 		var spr:StrumNote = null;
 		if(isDad) {
-			spr = strumLineNotes.members[id];
+			if (!isAlt)
+				spr = strumLineNotes.members[id];
+			else
+				spr = altStrumLineNotes.members[id];
 		} else {
 			spr = playerStrums.members[id];
 		}

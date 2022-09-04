@@ -1292,6 +1292,8 @@ class PlayState extends MusicBeatState
 				if(!ClientPrefs.lowQuality) foregroundSprites.add(new BGSprite('tank3', 1300, 1200, 3.5, 2.5, ['fg']));
 		}
 
+		if (dadbattleSmokes == null) dadbattleSmokes = new FlxSpriteGroup(); //fuck you
+
 		switch(Paths.formatToSongPath(SONG.song))
 		{
 			case 'stress':

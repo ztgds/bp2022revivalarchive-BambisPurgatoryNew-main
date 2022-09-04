@@ -165,6 +165,7 @@ class PlayState extends MusicBeatState
 	public var eventNotes:Array<EventNote> = [];
 
 	private var strumLine:FlxSprite;
+	private var altStrumLine:FlxSprite;
 
 	//Handles the new epic mega sexy cam code that i've done
 	public var camFollow:FlxPoint;
@@ -173,8 +174,10 @@ class PlayState extends MusicBeatState
 	private static var prevCamFollowPos:FlxObject;
 
 	public var strumLineNotes:FlxTypedGroup<StrumNote>;
+	public var altStrumLineNotes:FlxTypedGroup<StrumNote>;
 	public var opponentStrums:FlxTypedGroup<StrumNote>;
 	public var playerStrums:FlxTypedGroup<StrumNote>;
+	public var altStrums:FlxTypedGroup<StrumNote>;
 	public var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
 
 	public var camZooming:Bool = false;
@@ -1541,8 +1544,12 @@ class PlayState extends MusicBeatState
 		rsod.visible = false;
 		rsod.cameras = [camHUD];
 
+		altStrumLine = new FlxSprite(0, -100);
+
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
+		altStrumLineNotes = new FlxTypedGroup<StrumNote>();
+		add(altStrumLineNotes);
 		add(grpNoteSplashes);
 
 		var splash:NoteSplash = new NoteSplash(100, 100, 0);
@@ -1551,6 +1558,7 @@ class PlayState extends MusicBeatState
 
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
+		altStrums = new FlxTypedGroup<StrumNote>();
 
 		// startCountdown();
 
@@ -2666,6 +2674,7 @@ class PlayState extends MusicBeatState
 
 			generateStaticArrows(0);
 			generateStaticArrows(1);
+			generateStaticArrows(2);
 			for (i in 0...playerStrums.length) {
 				setOnLuas('defaultPlayerStrumX' + i, playerStrums.members[i].x);
 				setOnLuas('defaultPlayerStrumY' + i, playerStrums.members[i].y);
@@ -3097,6 +3106,11 @@ class PlayState extends MusicBeatState
 
 				swagNote.scrollFactor.set();
 
+				if (swagNote.noteType == 'Alt Strum') {
+					swagNote.scrollFactor.set(1,1);
+					swagNote.cameras = [camGame];
+				}
+
 				var susLength:Float = swagNote.sustainLength;
 
 				susLength = susLength / Conductor.stepCrochet;
@@ -3294,8 +3308,14 @@ class PlayState extends MusicBeatState
 				if(!ClientPrefs.opponentStrums) targetAlpha = 0;
 				else if(ClientPrefs.middleScroll) targetAlpha = 0.35;
 			}
+			var babyArrow:StrumNote;
+			if (player != 2)
+				babyArrow = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
+			else {
+				babyArrow = new StrumNote(0, strumLine.y, i, 0);
+				babyArrow.scrollFactor.set(1,1);
+			}
 
-			var babyArrow:StrumNote = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
 			babyArrow.downScroll = ClientPrefs.downScroll;
 			if (!skipArrowStartTween)
 			{
@@ -3312,6 +3332,10 @@ class PlayState extends MusicBeatState
 			{
 				playerStrums.add(babyArrow);
 			}
+			else if (player == 2)
+			{
+				altStrums.add(babyArrow);
+			}
 			else
 			{
 				if(ClientPrefs.middleScroll)
@@ -3324,7 +3348,15 @@ class PlayState extends MusicBeatState
 				opponentStrums.add(babyArrow);
 			}
 
-			strumLineNotes.add(babyArrow);
+			if (player == 2)
+			{
+				altStrumLineNotes.add(babyArrow);
+			}
+			else
+			{
+				strumLineNotes.add(babyArrow);
+			}
+			
 			babyArrow.postAddedToGroup();
 		}
 	}
@@ -4022,8 +4054,10 @@ class PlayState extends MusicBeatState
 			notes.forEachAlive(function(daNote:Note)
 			{
 				var strumGroup:FlxTypedGroup<StrumNote> = playerStrums;
-				if(!daNote.mustPress) strumGroup = opponentStrums;
-
+				if(!daNote.mustPress) {
+					strumGroup = opponentStrums;
+					if(daNote.altStrum) strumGroup = altStrums;
+				}
 				var strumX:Float = strumGroup.members[daNote.noteData].x;
 				var strumY:Float = strumGroup.members[daNote.noteData].y;
 				var strumAngle:Float = strumGroup.members[daNote.noteData].angle;

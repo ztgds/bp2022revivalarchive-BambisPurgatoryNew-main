@@ -3408,9 +3408,9 @@ class PlayState extends MusicBeatState
 			gridSine += 180 * elapsed;
 			gridBG.alpha = 1 - Math.sin((Math.PI * gridSine) / 180);
 
-			bgshitH.y += (Math.sin(elapsedtime) * 0.55);
-			bgshitH2.y += (Math.sin(elapsedtime) * 0.5);
-			cloudsH.x += (Math.sin(elapsedtime) * 0.75);
+			bgshitH.y += (Math.sin(elapsedtime*0.7) * 0.55);
+			bgshitH2.y += (Math.sin(elapsedtime*0.6) * 0.5);
+			cloudsH.x += (Math.sin(elapsedtime*0.45) * 0.75);
 		}
 
 		switch (SONG.stage) {

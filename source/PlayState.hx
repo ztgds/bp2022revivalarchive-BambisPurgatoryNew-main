@@ -1765,6 +1765,7 @@ class PlayState extends MusicBeatState
 		composersBG.y = 200;
 		composersBG.x -= 600;
 		composersBG.scrollFactor.set();
+			composersBG.setGraphicSize(Std.int(composersText.width + 100), 50);
 		composersBG.cameras = [camOther];
 		if(composersWatermark != ' ')
 	    	insert(members.indexOf(composersText), composersBG);

@@ -1544,8 +1544,7 @@ class PlayState extends MusicBeatState
 		rsod.visible = false;
 		rsod.cameras = [camHUD];
 
-		altStrumLine = new FlxSprite(0, -2000); // they'll never know.....
-		// since they're so high up you'll need to move them down
+		altStrumLine = new FlxSprite(0, -100);
 
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
@@ -3319,24 +3318,28 @@ class PlayState extends MusicBeatState
 				else if(ClientPrefs.middleScroll) targetAlpha = 0.35;
 			}
 			var babyArrow:StrumNote;
-			if (player != 2)
+			if (player < 2)
 				babyArrow = new StrumNote(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, strumLine.y, i, player);
 			else {
-				babyArrow = new StrumNote(0, altStrumLine.y, i, 0);
+				babyArrow = new StrumNote(altStrumLine.x, altStrumLine.y, i, 0);
 				babyArrow.scrollFactor.set(1,1);
+				babyArrow.alpha = 0;
 			}
 
 			babyArrow.downScroll = ClientPrefs.downScroll;
-			if (!skipArrowStartTween)
-			{
-				babyArrow.y -= 10;
+			if (player < 2) {
+				if (!skipArrowStartTween)
+				{
+					babyArrow.y -= 10;
+					babyArrow.alpha = 0;
+					FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + assDelayy + (0.2 * i)});
+				}
+				else
+				{
+					babyArrow.alpha = targetAlpha;
+				}
+			} else
 				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: targetAlpha}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + assDelayy + (0.2 * i)});
-			}
-			else
-			{
-				babyArrow.alpha = targetAlpha;
-			}
 
 			if (player == 1)
 			{
@@ -4494,7 +4497,11 @@ class PlayState extends MusicBeatState
 					FlxG.camera.zoom += camZoom;
 					camHUD.zoom += hudZoom;
 				}
+			case 'Change the Default Camera Zoom': // not to be confused with the one above!
+					var mZoom:Float = Std.parseFloat(value1);
+					if(Math.isNaN(mZoom)) mZoom = 0.09;
 
+					defaultCamZoom = mZoom;
 			case 'Trigger BG Ghouls':
 				if(curStage == 'schoolEvil' && !ClientPrefs.lowQuality) {
 					bgGhouls.dance(true);
@@ -4729,6 +4736,19 @@ class PlayState extends MusicBeatState
 						shakeCam = false;
 					case 1: 
 						shakeCam = true;
+				}
+			case 'Show/Hide Alt Strumlines':
+				var iCame:Int = Std.parseInt(value1);
+				switch (iCame)
+				{
+                    case 0:
+						altStrums.forEach(function(spr:StrumNote){
+							FlxTween.tween(spr, {alpha: 0}, 1, {ease: FlxEase.circOut, startDelay: 0 + (0.1 * spr.ID)});
+						});
+					case 1: 
+						altStrums.forEach(function(spr:StrumNote){
+							FlxTween.tween(spr, {alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0 + (0.1 * spr.ID)});
+						});
 				}
 			case 'Set Property':
 				var killMe:Array<String> = value1.split('.');

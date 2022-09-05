@@ -92,15 +92,15 @@ class PlayState extends MusicBeatState
 		['A', 0.85], //From 80% to 84%
 		['A.', 0.9], //From 85% to 89%
 		['A:', 0.93], //From 90% to 92%
-		['AA', 0.96,50], //From 93% to 96.49%
+		['AA', 0.9650], //From 93% to 96.49%
 		['AA.', 0.99], //From 96.50% to 98%
-		['AA:', 0.99,70], //from 99 to 99.69%
-		['AAA', 0.99,80], //From 99.70% to 99.79%
-		['AAA.', 0.99,90], //From 99.80 to 99.89%
-		['AAA:', 0.99,955], //From 99.90% to 99.954%
-		['AAAA', 0.99,970], //From 99.954% to 99.969%
-		['AAAA.', 0.99,980], //From 99.970% to 99.979%
-		['AAAA:', 0.99,9935], //From 99.80% to 99.9934%
+		['AA:', 0.9970], //from 99 to 99.69%
+		['AAA', 0.9980], //From 99.70% to 99.79%
+		['AAA.', 0.9990], //From 99.80 to 99.89%
+		['AAA:', 0.99955], //From 99.90% to 99.954%
+		['AAAA', 0.99970], //From 99.954% to 99.969%
+		['AAAA.', 0.99980], //From 99.970% to 99.979%
+		['AAAA:', 0.999935], //From 99.80% to 99.9934%
 		['AAAAA', 1], //from 99.9935 to 100%
 		['AAAAA', 1] //The value on this one isn't used actually, since Perfect is always "1" // your m
 	];

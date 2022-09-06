@@ -3114,6 +3114,7 @@ class PlayState extends MusicBeatState
 				if (swagNote.noteType == 'Alt Strum') {
 					swagNote.scrollFactor.set(1,1);
 					swagNote.cameras = [camGame];
+					swagNote.mustPress = false; // since you're probably only gonna use it for the opponent
 				}
 
 				var susLength:Float = swagNote.sustainLength;
@@ -4750,6 +4751,14 @@ class PlayState extends MusicBeatState
 							FlxTween.tween(spr, {alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0 + (0.1 * spr.ID)});
 						});
 				}
+			case 'Move Alt Strumlines':
+				var split:Array<String> = value1.split(',');
+
+				altStrums.forEach(function(spr:StrumNote){
+					spr.x = Std.parseInt(split[0]);
+					spr.y = Std.parseInt(split[1]);
+					spr.postAddedToGroup();
+				});
 			case 'Set Property':
 				var killMe:Array<String> = value1.split('.');
 				if(killMe.length > 1) {

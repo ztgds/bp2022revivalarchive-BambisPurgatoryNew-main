@@ -3916,24 +3916,30 @@ class PlayState extends MusicBeatState
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
 
+		//	to-do: figure out scale workaround for animated icons
 		var mult:Float = FlxMath.lerp(1, iconP1.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
 		if (!dnbBounce && !laggingRSOD) {
 	    	iconP1.scale.set(mult, mult);
 	    	iconP1.updateHitboxPE();
 		}
-
+		
 		var mult:Float = FlxMath.lerp(1, iconP2.scale.x, CoolUtil.boundTo(1 - (elapsed * 9), 0, 1));
 		if (!dnbBounce && !laggingRSOD) {
+			
 	    	iconP2.scale.set(mult, mult);
     		iconP2.updateHitboxPE();
 		}
 
 		if (dnbBounce && !laggingRSOD) {
-			iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.8)),Std.int(FlxMath.lerp(150, iconP1.height, 0.8)));
-			iconP1.updateHitbox();
+			if (!iconP1.isAnim) {
+				iconP1.setGraphicSize(Std.int(FlxMath.lerp(150, iconP1.width, 0.8)),Std.int(FlxMath.lerp(150, iconP1.height, 0.8)));
+				iconP1.updateHitbox();
+			}
 
-	    	iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.8)),Std.int(FlxMath.lerp(150, iconP2.height, 0.8)));
-			iconP2.updateHitbox();
+			if (!iconP2.isAnim) {
+		    	iconP2.setGraphicSize(Std.int(FlxMath.lerp(150, iconP2.width, 0.8)),Std.int(FlxMath.lerp(150, iconP2.height, 0.8)));
+				iconP2.updateHitbox();
+			}
 		}
 
 		var iconOffset:Int = 26;
@@ -3950,16 +3956,16 @@ class PlayState extends MusicBeatState
 			health = 2;
 
 		if (healthBar.percent < 20){
-			iconP1.animation.curAnim.curFrame = 1;
-			iconP2.animation.curAnim.curFrame = 2;
+			iconP1.changeIconStatus(1);
+			iconP2.changeIconStatus(2);
 		}
 		else if (healthBar.percent > 80){
-			iconP1.animation.curAnim.curFrame = 2;
-			iconP2.animation.curAnim.curFrame = 1;
+			iconP1.changeIconStatus(2);
+			iconP2.changeIconStatus(1);
 		}
 		else {
-			iconP1.animation.curAnim.curFrame = 0;
-			iconP2.animation.curAnim.curFrame = 0;
+			iconP1.changeIconStatus(0);
+			iconP2.changeIconStatus(0);
 		}
 
 		if (FlxG.keys.anyJustPressed(debugKeysCharacter) && !endingSong && !inCutscene) {
@@ -6205,10 +6211,10 @@ class PlayState extends MusicBeatState
 			iconP2.updateHitbox();
 		}
 		if (dnbBounce && !laggingRSOD) {
-			iconP1.setGraphicSize(Std.int(iconP1.width + (50 * (2 - funny))),Std.int(iconP2.height - (25 * (2 - funny))));
+			if(!iconP1.isAnim) iconP1.setGraphicSize(Std.int(iconP1.width + (50 * (2 - funny))),Std.int(iconP1.height - (25 * (2 - funny))));
 			iconP1.updateHitbox();
 
-	    	iconP2.setGraphicSize(Std.int(iconP2.width + (50 * (2 - funny))),Std.int(iconP2.height - (25 * (2 - funny))));
+	    	if(!iconP2.isAnim) iconP2.setGraphicSize(Std.int(iconP2.width + (50 * (2 - funny))),Std.int(iconP2.height - (25 * (2 - funny))));
 	     	iconP2.updateHitbox();
 		}
 

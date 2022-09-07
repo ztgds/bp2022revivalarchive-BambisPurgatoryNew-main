@@ -376,6 +376,7 @@ class PlayState extends MusicBeatState
 
 	// shit for upheaval!!1 //
 	var uphIntroTime:Bool = false;
+	var fakenotes:FlxSprite;
 
 	// stuff for the stages !! //
 	var gridBG:FlxSprite;
@@ -1550,7 +1551,7 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition = -5000;
 
 		strumLine = new FlxSprite(ClientPrefs.middleScroll ? STRUM_X_MIDDLESCROLL : STRUM_X, 50).makeGraphic(FlxG.width, 10);
-		if(ClientPrefs.downScroll) strumLine.y = FlxG.height - 150;
+		if(ClientPrefs.downScroll) strumLine.y = FlxG.height - 165;
 		strumLine.scrollFactor.set();
 
 		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
@@ -1592,6 +1593,14 @@ class PlayState extends MusicBeatState
 			add(rsod);
 		rsod.visible = false;
 		rsod.cameras = [camHUD];
+
+		fakenotes = new FlxSprite(0, 0).loadGraphic(Paths.image('bpASSets/ui/susNotes'));
+		fakenotes.antialiasing = true;
+		if(ClientPrefs.downScroll) 
+			fakenotes.y += 465;
+		if(SONG.song.toLowerCase() == "upheaval") 
+			add(fakenotes);
+		fakenotes.cameras = [camHUD];
 
 		altStrumLine = new FlxSprite(0, -100);
 
@@ -1704,7 +1713,8 @@ class PlayState extends MusicBeatState
 		healthBarBG.xAdd = -4;
 		healthBarBG.yAdd = -4;
 		add(healthBarBG);
-		if(ClientPrefs.downScroll) healthBarBG.y = 0.11 * FlxG.height;
+		if(ClientPrefs.downScroll)
+			healthBarBG.y = 50;
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);
@@ -3759,7 +3769,7 @@ class PlayState extends MusicBeatState
 						dnbBounce = false;
 						uphIntroTime = true;
 
-						for (elemHiden in [timeTxt, timeBarBG, timeBar, healthBarOverlay]) {
+						for (elemHiden in [timeTxt, timeBarBG, timeBar, healthBarOverlay, notes, strumLineNotes]) {
 							if (elemHiden != null) {
 								elemHiden.visible = false;
 							}
@@ -3778,12 +3788,35 @@ class PlayState extends MusicBeatState
 						camHUD.alpha = 1;
 						FlxG.camera.alpha = 1;
 						setFontVCR();
+					case 191:
+				
+						FlxTween.tween(fakenotes.scale, {x: 3.33/*MANDELA CATALOGUE REFERENCE BOTTOM TEXT*/, y: 0.55}, 25);
+						FlxTween.tween(healthBar, {angle: 120}, 25);
+						FlxTween.tween(FlxG.camera, {angle: 5}, 25);
+					case 223:
+						FlxTween.tween(olddaveGate.scale, {x: 3, y: 1}, 15);
+						FlxTween.tween(olddaveGrass.scale, {x: 1.2, y: 5.5}, 13);
+						FlxTween.tween(scoreTxt.scale, {x: 10.25, y: 3.25}, 20);
+					case 256:
+						FlxTween.tween(gf.scale, {x: 1.75, y: 0.15}, 13);
+						FlxTween.tween(olddaveGate, {angle: 180}, 20);
+						FlxTween.tween(olddavesky.scale, {x: 7, y: 1.2}, 10);
+						//FlxTween.tween(fakenotes.scale, {x: 1.5, y: 10}, 20);
+						FlxTween.tween(olddaveHills.scale, {x: 10, y:0.54}, 10);
+						FlxTween.tween(songinfoBar.scale, {x: 1.25, y: 10.25}, 19);
+					case 508:
+						FlxG.camera.alpha = 0;
+						camHUD.alpha = 0;
 					case 512:
-						for (elemHiden in [timeTxt, timeBarBG, timeBar, healthBarOverlay]) {
+						FlxG.camera.alpha = 1;
+						camHUD.alpha = 1;
+						// just realized i mispelled "hidden" LOL, not gonna fix it sorry not sorry :smiling_imp:
+						for (elemHiden in [timeTxt, timeBarBG, timeBar, healthBarOverlay, notes, strumLineNotes]) {
 							if (elemHiden != null) {
 								elemHiden.visible = true;
 							}
 						}
+						gf.visible = false;
 						scaryTrail.visible = true;
 
 						uphIntroTime = false;
@@ -3796,10 +3829,17 @@ class PlayState extends MusicBeatState
 						remove(olddaveGate);
 						remove(olddaveGrass);
 						remove(olddaveHills);
+						remove(fakenotes);
 
 						songinfoBar.text = SONG.song;
 						songinfoBar.cameras = [camHUD];
 
+						scoreTxt.scale.x = 1;
+						scoreTxt.scale.y = 1;
+						songinfoBar.scale.x = 1;
+						songinfoBar.scale.y = 1;
+						healthBar.angle = 0;
+						FlxG.camera.angle = 0;
 						scoreTxt.y = healthBarBG.y + 25;
 						setFontComicSans();
 				}

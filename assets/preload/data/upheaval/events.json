@@ -1,0 +1,76 @@
+{
+	"song": {
+		"events": [
+			[
+				0,
+				[
+					[
+						"Change Character",
+						"1",
+						"old-dave"
+					]
+				]
+			],
+			[
+				40421.0526315789,
+				[
+					[
+						"Change Character",
+						"1",
+						"bambi-god"
+					]
+				]
+			],
+			[
+				60631.5789473684,
+				[
+					[
+						"Change Character",
+						"1",
+						"god-expunged-1"
+					]
+				]
+			],
+			[
+				60641.447368421,
+				[
+					[
+						"Change Character",
+						"0",
+						"bf-scared"
+					]
+				]
+			],
+			[
+				60651.3157894736,
+				[
+					[
+						"Flash effect",
+						"0",
+						""
+					]
+				]
+			],
+			[
+				60671.0526315789,
+				[
+					[
+						"Toggle Eyesores",
+						"1",
+						""
+					]
+				]
+			],
+			[
+				60690.7894736842,
+				[
+					[
+						"Toggle Eyesores",
+						"0",
+						""
+					]
+				]
+			]
+		]
+	}
+}

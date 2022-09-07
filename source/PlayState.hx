@@ -1597,7 +1597,7 @@ class PlayState extends MusicBeatState
 		fakenotes = new FlxSprite(0, 0).loadGraphic(Paths.image('bpASSets/ui/susNotes'));
 		fakenotes.antialiasing = true;
 		if(ClientPrefs.downScroll) 
-			fakenotes.y += 465;
+			fakenotes.y += 565;
 		if(SONG.song.toLowerCase() == "upheaval") 
 			add(fakenotes);
 		fakenotes.cameras = [camHUD];

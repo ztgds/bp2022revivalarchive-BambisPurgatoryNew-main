@@ -3804,7 +3804,7 @@ class PlayState extends MusicBeatState
 					case 512:
 						refreshTrail();
 						gf.visible = false;
-						FlxG.camera.visible = true;
+						FlxG.camera.alpha = 1;
 						camHUD.flash(FlxColor.WHITE, 3);
 						scoreTxt.scale.x = 1;
 						scoreTxt.scale.y = 1;

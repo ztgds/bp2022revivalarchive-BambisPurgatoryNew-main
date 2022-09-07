@@ -360,6 +360,10 @@ class PlayState extends MusicBeatState
 	var camBopVAL:Float = 0.015; //camGame
 	var camHUDBopVAL:Float = 0.05; //camHUD
 
+	// for the regular camera zoom //
+	var ogCamBopVAL:Float = 0.015; //camGame
+	var ogCamHUDBopVAL:Float = 0.05; //camHUD
+
 	// shit that messes with the camera (mostly for like events like eyesores) //
 	private var shakeCam:Bool = false;
 	private var camZoomSnap:Bool = false;
@@ -937,7 +941,7 @@ class PlayState extends MusicBeatState
 					cloudsH.scale.set(1.45, 1.55);
 					add(cloudsH);
 
-					if(SONG.song.toLowerCase() == 'upheaval') {
+					/*if(SONG.song.toLowerCase() == 'upheaval') {
 						defaultCamZoom = 0.9;
 						
 						if (!ClientPrefs.lowQuality) {
@@ -971,7 +975,7 @@ class PlayState extends MusicBeatState
 							olddaveGrass.active = false;
 							add(olddaveGrass);
 						}
-					}
+					}*/
 				}
 	
 			case '3dComputer':
@@ -1594,13 +1598,13 @@ class PlayState extends MusicBeatState
 		rsod.visible = false;
 		rsod.cameras = [camHUD];
 
-		fakenotes = new FlxSprite(0, 0).loadGraphic(Paths.image('bpASSets/ui/susNotes'));
+		/*fakenotes = new FlxSprite(0, 0).loadGraphic(Paths.image('bpASSets/ui/susNotes'));
 		fakenotes.antialiasing = true;
 		if(ClientPrefs.downScroll) 
 			fakenotes.y += 565;
 		if(SONG.song.toLowerCase() == "upheaval") 
 			add(fakenotes);
-		fakenotes.cameras = [camHUD];
+		fakenotes.cameras = [camHUD];*/
 
 		altStrumLine = new FlxSprite(0, -100);
 
@@ -2112,6 +2116,12 @@ class PlayState extends MusicBeatState
 			loopDelay: 0
 		});
 	}
+
+	function refreshTrail() {
+		remove(scaryTrail);
+		scaryTrail = new FlxTrail(dad, null, 4, 12, 0.3, 0.069); //nice
+		addBehindDad(scaryTrail);
+    }
 
 	function set_songSpeed(value:Float):Float
 	{
@@ -3764,84 +3774,50 @@ class PlayState extends MusicBeatState
 				switch (curStep)
 				{
 					case 0:
-						scoreTxt.y = healthBarBG.y + 50;						
-						ogBounce = true;
-						dnbBounce = false;
-						uphIntroTime = true;
-
-						for (elemHiden in [timeTxt, timeBarBG, timeBar, healthBarOverlay, notes, strumLineNotes]) {
-							if (elemHiden != null) {
-								elemHiden.visible = false;
-							}
-						}
 						FlxG.camera.alpha = 0;
+					    hideshit();
+						//openfl.Lib.application.window.title = "Friday Night Funkin' | VS DAVE";
+					case 1:
 						camHUD.alpha = 0;
-
-						scoreTxt.text = 'Score:0 | Misses:0 | Accuracy:0% | FC';
-						songinfoBar.text = 'Insanity Hard - KE 1.2';
-						songinfoBar.cameras = [camGame];
-						scaryTrail.visible = false;
-						gf.color = FlxColor.WHITE;
-						if(!boyfriend.curCharacter.startsWith('golden-tristan'))
-							boyfriend.color = FlxColor.WHITE;
-					case 64:
-						camHUD.alpha = 1;
-						FlxG.camera.alpha = 1;
-						setFontVCR();
+						restoreHUDElements();
 					case 191:
-				
-						FlxTween.tween(fakenotes.scale, {x: 3.33/*MANDELA CATALOGUE REFERENCE BOTTOM TEXT*/, y: 0.55}, 25);
-						FlxTween.tween(healthBar, {angle: 120}, 25);
-						FlxTween.tween(FlxG.camera, {angle: 5}, 25);
+						for(str in playerStrums) {
+							str.angle = 10;
+							str.alpha = 0;
+							FlxTween.tween(str, {angle: 0, alpha: 1}, 5, {ease: FlxEase.circOut});
+
+						}
+						for(str in opponentStrums) {
+							str.angle = -10;
+							str.alpha = 0;
+							FlxTween.tween(str, {angle: 0, alpha: 1}, 5, {ease: FlxEase.circOut});
+						}
+
+						FlxTween.tween(camHUD, {alpha: 1}, 1, {ease: FlxEase.circOut});
+						FlxTween.tween(camHUD, {angle: 5}, 25);
 					case 223:
-						FlxTween.tween(olddaveGate.scale, {x: 3, y: 1}, 15);
-						FlxTween.tween(olddaveGrass.scale, {x: 1.2, y: 5.5}, 13);
 						FlxTween.tween(scoreTxt.scale, {x: 10.25, y: 3.25}, 20);
 					case 256:
-						FlxTween.tween(gf.scale, {x: 1.75, y: 0.15}, 13);
-						FlxTween.tween(olddaveGate, {angle: 180}, 20);
-						FlxTween.tween(olddavesky.scale, {x: 7, y: 1.2}, 10);
-						//FlxTween.tween(fakenotes.scale, {x: 1.5, y: 10}, 20);
-						FlxTween.tween(olddaveHills.scale, {x: 10, y:0.54}, 10);
 						FlxTween.tween(songinfoBar.scale, {x: 1.25, y: 10.25}, 19);
 					case 508:
-						FlxG.camera.alpha = 0;
-						camHUD.alpha = 0;
+						//uphIntroTime = false;
 					case 512:
-						FlxG.camera.alpha = 1;
-						camHUD.alpha = 1;
-						// just realized i mispelled "hidden" LOL, not gonna fix it sorry not sorry :smiling_imp:
-						for (elemHiden in [timeTxt, timeBarBG, timeBar, healthBarOverlay, notes, strumLineNotes]) {
-							if (elemHiden != null) {
-								elemHiden.visible = true;
-							}
-						}
+						refreshTrail();
 						gf.visible = false;
-						scaryTrail.visible = true;
-
-						uphIntroTime = false;
-						ogBounce = false;
-						dnbBounce = true;
-
+						FlxG.camera.visible = true;
 						camHUD.flash(FlxColor.WHITE, 3);
-
-						remove(olddavesky);
-						remove(olddaveGate);
-						remove(olddaveGrass);
-						remove(olddaveHills);
-						remove(fakenotes);
-
-						songinfoBar.text = SONG.song;
-						songinfoBar.cameras = [camHUD];
-
 						scoreTxt.scale.x = 1;
 						scoreTxt.scale.y = 1;
 						songinfoBar.scale.x = 1;
 						songinfoBar.scale.y = 1;
 						healthBar.angle = 0;
-						FlxG.camera.angle = 0;
-						scoreTxt.y = healthBarBG.y + 25;
-						setFontComicSans();
+					//	FlxG.camera.angle = 0;
+					    camHUD.angle = 0;
+					case 767:
+						refreshTrail();
+						ogCamBopVAL = 0.05;
+						ogCamHUDBopVAL = 0.1;
+						camHUD.flash(FlxColor.WHITE, 1.5);
 				}
 			case 'rebound':
 				switch (curStep)
@@ -6533,8 +6509,8 @@ class PlayState extends MusicBeatState
 
 			if (camZooming && FlxG.camera.zoom < 1.35 && ClientPrefs.camZooms && !camZoomSnap && !laggingRSOD)
 			{
-				FlxG.camera.zoom += 0.015 * camZoomingMult;
-				camHUD.zoom += 0.05 * camZoomingMult;
+				FlxG.camera.zoom += ogCamBopVAL * camZoomingMult;
+				camHUD.zoom += ogCamHUDBopVAL * camZoomingMult;
 			}
 
 			if (SONG.notes[curSection].changeBPM)

@@ -310,6 +310,7 @@ class PlayState extends MusicBeatState
 	public static var deathCounter:Int = 0;
 
 	public var defaultCamZoom:Float = 1.05;
+	var prevDFCZ:Float = 1;
 
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
@@ -367,6 +368,7 @@ class PlayState extends MusicBeatState
 	// shit that messes with the camera (mostly for like events like eyesores) //
 	private var shakeCam:Bool = false;
 	private var camZoomSnap:Bool = false;
+	var goofyZoom:Bool = false;
 
 	// some stuff for icons //
 	var dnbBounce:Bool = true;
@@ -465,19 +467,19 @@ class PlayState extends MusicBeatState
 		camOther.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camHUD);
-		FlxG.cameras.add(camOther);
+		FlxG.cameras.add(camHUD, false);
+		FlxG.cameras.add(camOther, false);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		// fix black borders when screen shake n shit
-		var ext = 100;
+	/*	var ext = 100;
 		camGame.setSize(FlxG.width + ext, FlxG.height + ext);
 		camGame.setPosition( - ext / 2, - ext / 2);
-		camHUD.setSize(FlxG.width + ext, FlxG.height + ext);
+		camHUD.setSize(FlxG.width + ext, FlxG.height + ext);*/
+		// Disabling this till i can think about a solution cuz the game goes wider than it should be visible //
 
-		FlxCamera.defaultCameras = [camGame];
+		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 		CustomFadeTransition.nextCamera = camOther;
-		//FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
 		persistentUpdate = true;
 		persistentDraw = true;
@@ -1574,7 +1576,7 @@ class PlayState extends MusicBeatState
 		if(ClientPrefs.downScroll) timeTxt.y = FlxG.height - 44;
 		updateTime = showTime;
 
-		timeBarBG = new AttachedSprite('healthBar');
+		timeBarBG = new AttachedSprite('healthBarNew');
 		timeBarBG.x = timeTxt.x;
 		timeBarBG.y = timeTxt.y + (timeTxt.height / 4);
 		timeBarBG.screenCenter(X);
@@ -1594,7 +1596,7 @@ class PlayState extends MusicBeatState
 		timeBar.alpha = 0;
 		timeBar.visible = showTime;
 		timeBar.screenCenter(X);
-		add(timeBar);
+		insert(members.indexOf(timeBarBG), timeBar);
 		add(timeTxt);
 		timeBarBG.sprTracker = timeBar;
 
@@ -1715,7 +1717,7 @@ class PlayState extends MusicBeatState
 		FlxG.fixedTimestep = false;
 		moveCameraSection();
 
-		healthBarBG = new AttachedSprite('healthBar');
+		healthBarBG = new AttachedSprite('healthBarNew');
 		healthBarBG.y = FlxG.height * 0.89;
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
@@ -1732,7 +1734,7 @@ class PlayState extends MusicBeatState
 		// healthBar
 		healthBar.visible = !ClientPrefs.hideHud;
 		healthBar.alpha = ClientPrefs.healthBarAlpha;
-		add(healthBar);
+		insert(members.indexOf(healthBarBG), healthBar);
 		healthBarBG.sprTracker = healthBar;
 
 		healthBarOverlay = new FlxSprite().loadGraphic(Paths.image('healthBarOverlay'));
@@ -1760,22 +1762,22 @@ class PlayState extends MusicBeatState
 		add(iconP2);
 		reloadHealthBarColors();
 
-		songinfoBar = new FlxText(5, FlxG.height - 30, 0, SONG.song, 20);
+		songinfoBar = new FlxText(5, healthBarBG.y + 50, FlxG.width, SONG.song, 20);
 		if(chartingMode)
 			songinfoBar.text += ' [CHARTING MODE]';
-		songinfoBar.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		songinfoBar.setFormat(Paths.font("comic.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		songinfoBar.scrollFactor.set();
 		songinfoBar.borderSize = 1.25;
 		add(songinfoBar);
 
-		scoreTxt = new FlxText(0, healthBarBG.y + 25, FlxG.width, "", 20);
+		scoreTxt = new FlxText(0, healthBarBG.y + 50, FlxG.width, "", 20);
 		scoreTxt.setFormat(Paths.font("comic.ttf"), 17, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		scoreTxt.scrollFactor.set();
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.hideHud;
 		add(scoreTxt);
 
-		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "BOTPLAY", 32);
+		botplayTxt = new FlxText(400, timeBarBG.y + 55, FlxG.width - 800, "[BOTPLAY]", 32);
 		botplayTxt.setFormat(Paths.font("comic.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		botplayTxt.scrollFactor.set();
 		botplayTxt.borderSize = 1.25;
@@ -2015,6 +2017,8 @@ class PlayState extends MusicBeatState
 		Conductor.safeZoneOffset = (ClientPrefs.safeFrames / 60) * 1000;
 		callOnLuas('onCreatePost', []);
 
+		prevDFCZ = defaultCamZoom;
+
 		super.create();
 
 		cacheCountdown();
@@ -2116,7 +2120,7 @@ class PlayState extends MusicBeatState
 	static function quickSpin(sprite)
 	{
 		FlxTween.angle(sprite, 0, 360, 0.5, {
-			type: FlxTween.ONESHOT,
+			type: FlxTweenType.ONESHOT,
 			ease: FlxEase.quadInOut,
 			startDelay: 0,
 			loopDelay: 0
@@ -2165,7 +2169,7 @@ class PlayState extends MusicBeatState
 			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
 		}
 	
-		timeBar.createFilledBar(FlxColor.BLACK, FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
+		timeBar.createFilledBar(0xFF121212, FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
 	
 		healthBar.updateBar();
 		timeBar.updateBar();
@@ -3030,7 +3034,7 @@ class PlayState extends MusicBeatState
 			}
 			scoreTxt.scale.x = 1.065;
 			scoreTxt.scale.y = 1.065;
-			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 1, {
+			scoreTxtTween = FlxTween.tween(scoreTxt.scale, {x: 1, y: 1}, 0.85, {
 				ease: FlxEase.circOut,
 				onComplete: function(twn:FlxTween) {
 					scoreTxtTween = null;
@@ -3729,7 +3733,8 @@ class PlayState extends MusicBeatState
 
 		if (shakeCam && eyesoreson)
 		{
-			FlxG.camera.shake(0.015, 0.015);
+			if(SONG.song.toLowerCase() != "reality breaking")
+				FlxG.camera.shake(0.015, 0.015);
 		    if(gf.animOffsets.exists('scared')) {
 	     		gf.playAnim('scared', true);
 		    }
@@ -3776,6 +3781,15 @@ class PlayState extends MusicBeatState
 		// MID SONG EVENTS !! //
 		switch (SONG.song.toLowerCase())
 		{
+			case 'reality breaking':
+				switch (curStep)
+				{
+					case 1024 | 2048:
+						goofyZoom = true;
+				    case 1536 | 2815:
+						goofyZoom = false;
+						defaultCamZoom = prevDFCZ;
+				}		
 			case 'upheaval':
 				switch (curStep)
 				{
@@ -3811,7 +3825,7 @@ class PlayState extends MusicBeatState
 						refreshTrail();
 						gf.visible = false;
 						FlxG.camera.alpha = 1;
-						camHUD.flash(FlxColor.WHITE, 3);
+						camOther.flash(FlxColor.WHITE, 3);
 						scoreTxt.scale.x = 1;
 						scoreTxt.scale.y = 1;
 						songinfoBar.scale.x = 1;
@@ -3823,7 +3837,7 @@ class PlayState extends MusicBeatState
 						refreshTrail();
 						ogCamBopVAL = 0.05;
 						ogCamHUDBopVAL = 0.1;
-						camHUD.flash(FlxColor.WHITE, 1.5);
+						camOther.flash(FlxColor.WHITE, 1.5);
 				}
 			case 'rebound':
 				switch (curStep)
@@ -3890,7 +3904,7 @@ class PlayState extends MusicBeatState
 						rsod.visible = false;
 						notResponding.alpha = 0;
 						FlxG.camera.visible = true;
-						camHUD.flash(FlxColor.BLACK, 0.55);
+						camOther.flash(FlxColor.BLACK, 0.55);
 						FlxG.camera.flash(FlxColor.BLACK, 0.55);
 						restoreHUDElements();
 						camZooming = true;
@@ -4891,9 +4905,9 @@ class PlayState extends MusicBeatState
 					case 1:
 						if(ClientPrefs.flashing) FlxG.camera.flash(FlxColor.BLACK, 1);
 					case 2:
-						if(ClientPrefs.flashing) camHUD.flash(FlxColor.WHITE, 1);
+						if(ClientPrefs.flashing) camOther.flash(FlxColor.WHITE, 1);
 					case 3:
-						if(ClientPrefs.flashing) camHUD.flash(FlxColor.BLACK, 1);
+						if(ClientPrefs.flashing) camOther.flash(FlxColor.BLACK, 1);
 				}
 			case 'Hide or Show HUD elements':
 				var top10awesomeId:Int = Std.parseInt(value1);
@@ -5730,7 +5744,7 @@ class PlayState extends MusicBeatState
 		{
 			switch(daNote.noteType) {
 				case 'Restart PC Note': //used for rsod
-				 	camHUD.flash(FlxColor.BLACK, 4.5, null, true);
+				 	camOther.flash(FlxColor.BLACK, 4.5, null, true);
 					camHUD.shake(0.0055, 0.35);
 					FlxG.camera.flash(FlxColor.BLACK, 1, null, true);
 					health -= 1;
@@ -6417,6 +6431,13 @@ class PlayState extends MusicBeatState
 		{
 			FlxG.camera.zoom += camBopVAL * camZoomingMult;
 			camHUD.zoom += camHUDBopVAL * camZoomingMult;
+		}
+
+		if(goofyZoom) {
+			if(curBeat % 4 == 0)
+				defaultCamZoom = defaultCamZoom - 0.25;
+			if(curBeat % 4 == 2)
+				defaultCamZoom = defaultCamZoom + 0.25;
 		}
 
 		if (gf != null && curBeat % Math.round(gfSpeed * gf.danceEveryNumBeats) == 0 && gf.animation.curAnim != null && !gf.animation.curAnim.name.startsWith("sing") && !gf.stunned)

@@ -469,6 +469,12 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camOther);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
+		// fix black borders when screen shake n shit
+		var ext = 100;
+		camGame.setSize(FlxG.width + ext, FlxG.height + ext);
+		camGame.setPosition( - ext / 2, - ext / 2);
+		camHUD.setSize(FlxG.width + ext, FlxG.height + ext);
+
 		FlxCamera.defaultCameras = [camGame];
 		CustomFadeTransition.nextCamera = camOther;
 		//FlxG.cameras.setDefaultDrawTarget(camGame, true);

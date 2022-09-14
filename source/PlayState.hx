@@ -387,8 +387,8 @@ class PlayState extends MusicBeatState
 	// stuff for the stages !! //
 	var gridBG:FlxSprite;
 	var gridSine:Float = 0;
-	var bgshitH:BGSprite;
-	var bgshitH2:BGSprite;
+	var bgshitH:DepthSprite;
+	var bgshitH2:DepthSprite;
 	var cloudsH:BGSprite;
 	var bgrsod:FlxSprite;
 	var olddavesky:FlxSprite;
@@ -927,20 +927,20 @@ class PlayState extends MusicBeatState
 					bgHELL.scale.set(10, 10);
 					bgHELL.alpha = 0.85;
 					add(bgHELL);
-		
-					bgshitH = new BGSprite('bpASSets/purgatory/3d_Objects', -600, -200, 0.7, 0.7);
-					bgshitH.setGraphicSize(Std.int(bgshitH.width * 1.25));
-					bgshitH.updateHitbox();
-				    //bgshitH.screenCenter(X);
-					bgshitH.scale.set(1.25, 1.25);
-					add(bgshitH);
-		
-					bgshitH2 = new BGSprite('bpASSets/purgatory/3dBG_Objects', -600, -200, 0.5, 0.5);
-					bgshitH2.setGraphicSize(Std.int(bgshitH2.width * 1.2));
-					bgshitH2.updateHitbox();
-					bgshitH2.screenCenter(X);
+
+					bgshitH2 = new DepthSprite('bpASSets/purgatory/3dBG_Objects', -600, -200, 0.5, 0.5);
 					bgshitH2.scale.set(1.5, 1.5);
+					bgshitH2.screenCenter(X);
+					bgshitH2.depth = 0.5;
+					bgshitH2.defaultScale = 1.5;
 					add(bgshitH2);
+		
+					bgshitH = new DepthSprite('bpASSets/purgatory/3d_Objects', -600, -200, 0.7, 0.7);
+					bgshitH.scale.set(1.25, 1.25);
+				    //bgshitH.screenCenter(X);
+				    bgshitH.depth = 0.7;
+					bgshitH.defaultScale = 1.25;
+					add(bgshitH);
 
 					cloudsH = new BGSprite('bpASSets/purgatory/scaryclouds', -600, -200, 0.2, 0.2);
 					cloudsH.updateHitbox();
@@ -4228,8 +4228,8 @@ class PlayState extends MusicBeatState
 
 		if (camZooming)
 		{
-			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, CoolUtil.boundTo(0.95 - (elapsed * 3.125), 0, 1));
-			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(0.95 - (elapsed * 3.125), 0, 1));
+			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, CoolUtil.boundTo(0.95 - (elapsed * 2.125), 0, 1));
+			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, CoolUtil.boundTo(0.95 - (elapsed * 2.125), 0, 1));
 		}
 
 		FlxG.watch.addQuick("secShit", curSection);

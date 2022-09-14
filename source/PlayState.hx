@@ -385,6 +385,10 @@ class PlayState extends MusicBeatState
 	var fakenotes:FlxSprite;
 
 	// stuff for the stages !! //
+	var bg:DepthSprite;
+	var hills:DepthSprite;
+	var gate:DepthSprite;
+	var grass:DepthSprite;
 	var gridBG:FlxSprite;
 	var gridSine:Float = 0;
 	var bgshitH:DepthSprite;
@@ -592,39 +596,53 @@ class PlayState extends MusicBeatState
 		switch (curStage)
 		{
 			case 'houseDay': //Dave Week
-			var bg:BGSprite = new BGSprite('dave/sky', -600, -200, 0.2, 0.2);
+			bg = new DepthSprite('dave/sky', -600, -200, 0.2, 0.2);
+			bg.depth = 0.2;
 			add(bg);
 
-			var hills:BGSprite = new BGSprite('dave/hills', -225, -125, 0.5, 0.5);
+			hills = new DepthSprite('dave/hills', -225, -125, 0.5, 0.5);
+			hills.depth = 0.5;
+			hills.defaultScale = 1.3;
 			hills.setGraphicSize(Std.int(hills.width * 1.25));
 			hills.updateHitbox();
 			add(hills);
 
-			var gate:BGSprite = new BGSprite('dave/gate', -226, -125, 0.9, 0.9);
+			gate = new DepthSprite('dave/gate', -226, -125, 0.9, 0.9);
+			gate.depth = 1;
+			gate.defaultScale = 1.3;
 			gate.setGraphicSize(Std.int(gate.width * 1.2));
 			gate.updateHitbox();
 			add(gate);
 
-			var grass:BGSprite = new BGSprite('dave/grass', -225, -125, 0.9, 0.9);
+			grass = new DepthSprite('dave/grass', -225, -125, 0.9, 0.9);
+			grass.depth = 1;
+			grass.defaultScale = 1.3;
 			grass.setGraphicSize(Std.int(grass.width * 1.2));
 			grass.updateHitbox();
 			add(grass);
 
 		case 'houseSunset': //Dave Week
-			var bg:BGSprite = new BGSprite('dave/sky_sunset', -600, -200, 0.2, 0.2);
+			bg = new DepthSprite('dave/sky_sunset', -600, -200, 0.2, 0.2);
+			bg.depth = 0.2;
 			add(bg);
 
-			var hills:BGSprite = new BGSprite('dave/hills', -225, -125, 0.5, 0.5);
+			hills = new DepthSprite('dave/hills', -225, -125, 0.5, 0.5);
+			hills.depth = 0.5;
+			hills.defaultScale = 1.3;
 			hills.setGraphicSize(Std.int(hills.width * 1.25));
 			hills.updateHitbox();
 			add(hills);
 
-			var gate:BGSprite = new BGSprite('dave/gate', -226, -125, 0.9, 0.9);
+			gate = new DepthSprite('dave/gate', -226, -125, 0.9, 0.9);
+			gate.depth = 1;
+			gate.defaultScale = 1.3;
 			gate.setGraphicSize(Std.int(gate.width * 1.2));
 			gate.updateHitbox();
 			add(gate);
 
-			var grass:BGSprite = new BGSprite('dave/grass', -225, -125, 0.9, 0.9);
+			grass = new DepthSprite('dave/grass', -225, -125, 0.9, 0.9);
+			grass.depth = 1;
+			grass.defaultScale = 1.3;
 			grass.setGraphicSize(Std.int(grass.width * 1.2));
 			grass.updateHitbox();
 			add(grass);
@@ -638,20 +656,27 @@ class PlayState extends MusicBeatState
 			//grass.color = 0xFFFF8FB2;
 
 		case 'houseNight': //Dave Week
-			var bg:BGSprite = new BGSprite('dave/sky_night', -600, -200, 0.2, 0.2);
+			bg = new DepthSprite('dave/sky_night', -600, -200, 0.2, 0.2);
+			bg.depth = 0.2;
 			add(bg);
 
-			var hills:BGSprite = new BGSprite('dave/hills', -225, -125, 0.5, 0.5);
+			hills = new DepthSprite('dave/hills', -225, -125, 0.5, 0.5);
+			hills.depth = 0.5;
+			hills.defaultScale = 1.3;
 			hills.setGraphicSize(Std.int(hills.width * 1.25));
 			hills.updateHitbox();
 			add(hills);
 
-			var gate:BGSprite = new BGSprite('dave/gate', -226, -125, 0.9, 0.9);
+			gate = new DepthSprite('dave/gate', -226, -125, 0.9, 0.9);
+			gate.depth = 1;
+			gate.defaultScale = 1.3;
 			gate.setGraphicSize(Std.int(gate.width * 1.2));
 			gate.updateHitbox();
 			add(gate);
 
-			var grass:BGSprite = new BGSprite('dave/grass', -225, -125, 0.9, 0.9);
+			grass = new DepthSprite('dave/grass', -225, -125, 0.9, 0.9);
+			grass.depth = 1;
+			grass.defaultScale = 1.3;
 			grass.setGraphicSize(Std.int(grass.width * 1.2));
 			grass.updateHitbox();
 			add(grass);

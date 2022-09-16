@@ -19,14 +19,17 @@ function onCreate()
 end
 
 function onCreatePost()
-    makeLuaSprite("cool", "", 10, 0)
+    makeLuaSprite("cool", "", 10, 5)
+
+    initLuaShader("static")
+    makeLuaSprite("staticShader")
+    makeGraphic("staticShader", screenWidth, screenHeight)
+    setSpriteShader("staticShader", "static")
 
     initLuaShader("greyscale")
-    
-    makeLuaSprite("bruhshader")
-    makeGraphic("bruhshader", screenWidth, screenHeight)
-    
-    setSpriteShader("bruhshader", "greyscale")
+    makeLuaSprite("greyscaleShader")
+    makeGraphic("greyscaleShader", screenWidth, screenHeight)
+    setSpriteShader("greyscaleShader", "greyscale")
     
     addHaxeLibrary("ShaderFilter", "openfl.filters")
 
@@ -57,7 +60,8 @@ function onStepHit()
         doTweenZoom("camTween", "camGame", 0.9, 10, 'cubeout')
     end
     if curStep == 448 then
-        doTweenX("grayscaleTween", "cool", 0, 5.05, 'quadin')
+        doTweenX("grayscaleTween", "cool", 5, 5.05, 'quadin')
+        doTweenY("staticTween", "cool", 10, 5.05, 'quadin')
         doTweenX("barLeftTween", "barLeft", screenWidth/-2, 3.5, 'cubein')
         doTweenX("barRightTween", "barRight", screenWidth, 3.5, 'cubein')
         doTweenZoom("camTweenZm", "camGame", 1.5, 5.05, 'quadin')
@@ -78,6 +82,11 @@ function onStepHit()
         setProperty('dad.x', defaultOpponentX)
         setProperty('dad.visible', true)
 
+        cancelTween('grayscaleTween')
+        cancelTween('staticTween')
+        setProperty('cool.x', 0)
+        setProperty('cool.y', 2)
+
         removeLuaSprite('stageback')
         removeLuaSprite('stagefront')
         removeLuaSprite('stagecurtains')
@@ -97,8 +106,10 @@ function onUpdatePost(elapsed)
     --what the actual fuck bro
     runHaxeCode([[
         // trace(ShaderFilter);
-        game.camGame.setFilters([new ShaderFilter(game.screenshader.shader), new ShaderFilter(game.getLuaObject("bruhshader").shader)]);
-        game.camHUD.setFilters([new ShaderFilter(game.getLuaObject("bruhshader").shader)]);
+        game.camGame.setFilters([new ShaderFilter(game.screenshader.shader), new ShaderFilter(game.getLuaObject("greyscaleShader").shader), new ShaderFilter(game.getLuaObject("staticShader").shader)]);
+        game.camHUD.setFilters([new ShaderFilter(game.getLuaObject("greyscaleShader").shader)]);
     ]])
-    setShaderFloat("bruhshader", "iStrength", getProperty('cool.x')/10)
+    setShaderFloat("greyscaleShader", "iStrength", getProperty('cool.x')/10)
+    setShaderFloat("staticShader", "strength", getProperty('cool.y')/20)
+    setShaderFloat("staticShader", "iTime", os.clock())
 end

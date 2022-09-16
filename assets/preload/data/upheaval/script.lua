@@ -23,17 +23,12 @@ function onCreatePost()
 
     initLuaShader("greyscale")
     
-    makeLuaSprite("bruh")
-    makeGraphic("bruh", screenWidth, screenHeight)
+    makeLuaSprite("bruhshader")
+    makeGraphic("bruhshader", screenWidth, screenHeight)
     
-    setSpriteShader("bruh", "greyscale")
+    setSpriteShader("bruhshader", "greyscale")
     
     addHaxeLibrary("ShaderFilter", "openfl.filters")
-    runHaxeCode([[
-        trace(ShaderFilter);
-        game.camGame.setFilters([new ShaderFilter(game.getLuaObject("bruh").shader)]);
-        game.camHUD.setFilters([new ShaderFilter(game.getLuaObject("bruh").shader)]);
-    ]])
 
     makeLuaSprite("barLeft")
     makeGraphic("barLeft", screenWidth/2, screenHeight, '000000')
@@ -89,14 +84,21 @@ function onStepHit()
     end
 end
 
-function onUpdatePost()
-    setShaderFloat("bruh", "iStrength", getProperty('cool.x')/10)
+function onUpdatePost(elapsed)
     if darkenChar == false then
-        setProperty('boyfriend.color', getColorFromhex('FFFFFF'))
-        setProperty('gf.color', getColorFromhex('FFFFFF'))
+        setProperty('boyfriend.color', getColorFromHex('ffffff'))
+        setProperty('gf.color', getColorFromHex('ffffff'))
     end
     if ignoreFocus then
         setProperty('camFollow.x', getMidpointX('boyfriend') + offsetX)
         setProperty('camFollow.y', getMidpointY('boyfriend') + offsetY)
+        triggerEvent('Camera Follow Pos', '', '')
     end
+    --what the actual fuck bro
+    runHaxeCode([[
+        // trace(ShaderFilter);
+        game.camGame.setFilters([new ShaderFilter(game.screenshader.shader), new ShaderFilter(game.getLuaObject("bruhshader").shader)]);
+        game.camHUD.setFilters([new ShaderFilter(game.getLuaObject("bruhshader").shader)]);
+    ]])
+    setShaderFloat("bruhshader", "iStrength", getProperty('cool.x')/10)
 end

@@ -3818,6 +3818,7 @@ class PlayState extends MusicBeatState
 			case 'upheaval':
 				switch (curStep)
 				{
+					/* im testing my modchart rn -barrier
 					case 0:
 						FlxG.camera.alpha = 0;
 					    hideshit();
@@ -3845,7 +3846,7 @@ class PlayState extends MusicBeatState
 					case 256:
 						FlxTween.tween(songinfoBar.scale, {x: 1.25, y: 10.25}, 19);
 					case 508:
-						//uphIntroTime = false;
+						//uphIntroTime = false; */
 					case 512:
 						refreshTrail();
 						gf.visible = false;

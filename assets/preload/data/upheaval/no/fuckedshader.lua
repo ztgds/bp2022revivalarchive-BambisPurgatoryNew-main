@@ -11,10 +11,6 @@ function setChrome(chromeOffset)
     setShaderFloat("temporaryShader", "bOffset", chromeOffset * -1);
 end
 
-function opponentNoteHit(id, noteData, noteType, isSustainNote)
-    Chromacrap = Chromacrap + 0.015 -- edit this
-end
-
 function onCreatePost()
     initLuaShader("vcr")
     
@@ -32,6 +28,13 @@ function onCreatePost()
 end
 
 function onUpdate(elapsed)
+	if curStep >= 191 then
+        if curBeat % 1 == 0 then
+            Chromacrap = 0.005 -- edit this
+        end
+    end
+
+
     Chromacrap = math.lerp(Chromacrap, 0, boundTo(elapsed * 20, 0, 1))
     setChrome(Chromacrap)
 end

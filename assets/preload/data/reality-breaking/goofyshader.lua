@@ -1,3 +1,4 @@
+local shityourself = true
 Chromacrap = 0;
 
 function boundTo(value, min, max)
@@ -12,7 +13,9 @@ function setChrome(chromeOffset)
 end
 
 function opponentNoteHit(id, noteData, noteType, isSustainNote)
-    Chromacrap = Chromacrap + 0.015 -- edit this
+    if shityourself then
+        Chromacrap = Chromacrap + 0.015 -- edit this
+    end
 end
 
 function onCreatePost()
@@ -34,4 +37,15 @@ end
 function onUpdate(elapsed)
     Chromacrap = math.lerp(Chromacrap, 0, boundTo(elapsed * 20, 0, 1))
     setChrome(Chromacrap)
+
+    if not shityourself then 
+        if curBeat % 1 == 0 then
+            Chromacrap = 0.005 -- edit this
+        end
+    end
+
+    if curStep == 1024 then shityourself = false end
+    if curStep == 1536 then shityourself = true end
+    if curStep == 2048 then shityourself = false end
+    if curStep == 2815 then shityourself = true end
 end

@@ -171,6 +171,8 @@ class FunkinLua {
 			set('defaultPlayerStrumY' + i, 0);
 			set('defaultOpponentStrumX' + i, 0);
 			set('defaultOpponentStrumY' + i, 0);
+			set('defaultAltStrumX' + i, 0);
+			set('defaultAltStrumY' + i, 0);
 		}
 
 		// Default character positions woooo

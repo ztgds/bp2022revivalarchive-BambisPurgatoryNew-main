@@ -66,7 +66,8 @@ class ChartingState extends MusicBeatState
 		'Hurt Note',
 		'GF Sing',
 		'No Animation',
-		'Restart PC Note'
+		'Restart PC Note',
+		'Alt Strum'
 	];
 	private var noteTypeIntMap:Map<Int, String> = new Map<Int, String>();
 	private var noteTypeMap:Map<String, Null<Int>> = new Map<String, Null<Int>>();
@@ -94,7 +95,13 @@ class ChartingState extends MusicBeatState
 		['Flash effect', "Does a flash effect  (if the Flashing setting is enabled)\nOn Value 1:\n\n0: White Game cam flash\n1: for Black Game cam flash.\n2: for White HUD cam Flash\n3: for Black HUD cam Flash"],
 		['Quick note spin', "Does a quick note spin"],
 		['Change the Default Camera Zoom', "!! NOT TO BE CONFUSED WITH THE 'ADD CAMERA ZOOM' EVENT !!\nSets the Default Game Camera Zoom\nenter your value in Value 1."],
-		['Toggle Eyesores', "Toggle on or off the eyesores like on polygonized glitch and furiosity\n(On value 1: 0 = off | 1 = on)"]
+		['Flash effect', "Does a flash effect  (if the Flashing setting is enabled)\nOn Value 1:\n\n0: White Game cam flash\n1: for Black Game cam flash.\n2: for White HUD cam Flash\n3: for Black HUD cam Flash"],
+		['Hide or Show HUD elements', "(On Value 1: 0 to hide all of the hud elements\n| 1 to show only strums\n| 2 to show the hud elements if it was hidden previously)"],
+		['Hide or Show HUD elements with Fade', "(On Value 1: 0 to hide all of the hud elements with fade\n| 1 to show the hud elements if it was hidden\n with fade previously)"],
+		['Toggle Eyesores', "Toggle on or off the eyesores like on polygonized glitch and furiosity\n(On value 1: 0 = off | 1 = on)"],
+		['Show/Hide Alt Strumlines', "Shows or hides the alt strumlines\n(On value 1: 0 = off | 1 = on)"],
+		['Move Alt Strumlines', "Changes the position of the alt strumlines\nOn value 1: x, y (ex. 100,80)"],
+		['Thunderstorm type black screen', "adds a thunderstom from the shaggy mod type black screen\nValue 1: (0: Turn off, 1: turn on)"]
 	];
 
 	var _file:FileReference;

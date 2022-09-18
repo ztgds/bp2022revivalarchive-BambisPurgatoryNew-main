@@ -826,7 +826,7 @@ class PlayState extends MusicBeatState
 
 		case 'farmNight':
 			{
-				defaultCamZoom = 0.85;
+				defaultCamZoom = 0.8;
 				curStage = 'farmNight';
 				
 				/*if(ClientPrefs.chromaticAberration)
@@ -834,7 +834,7 @@ class PlayState extends MusicBeatState
 				  ShadersHandler.setChrome(1000);
 				*/
 
-				bg = new DepthSprite('dave/sky_night', -600, -200, 0.2, 0.2);
+				/*bg = new DepthSprite('dave/sky_night', -600, -200, 0.2, 0.2);
 				bg.depth = 0;
 				add(bg);
 
@@ -887,6 +887,23 @@ class PlayState extends MusicBeatState
 				add(cornSet2);
 				add(fence);
 				add(sign);
+				*/
+
+				var sky:BGSprite = new BGSprite('bambi/night/skye_gapple_reference', -1600, -1200, 0, 0);
+				sky.scale.set(0.5,0.5);
+				add(sky);
+
+				var hills:BGSprite = new BGSprite('bambi/night/hills', -1500, -1800, 0.2, 0.2);
+				hills.scale.set(0.5,0.5);
+				add(hills);
+
+				var farm:BGSprite = new BGSprite('bambi/night/farm', -1300, -1500, 0.65, 0.65);
+				farm.scale.set(0.6,0.6);
+				add(farm);
+
+				var foreground:BGSprite = new BGSprite('bambi/night/foreground', -1350, -1550, 1, 1);
+				foreground.scale.set(0.75,0.75);
+				add(foreground);
 	        }
 
 			// BP ZONE //

@@ -15,12 +15,12 @@ function onCreate()
 end
 
 function onCreatePost()
-    setProperty('healthBar.angle', 90)
     setProperty('healthBar.x', -220)
     setProperty('healthBar.y', 360)
 end
 
 function onUpdatePost()
+    setProperty('healthBar.angle', 90)
     setProperty('iconP2.x', getProperty('healthBar.x') + 220)
     setProperty('iconP2.y', getProperty('healthBar.y') - 330)
 

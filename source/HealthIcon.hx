@@ -35,7 +35,7 @@ class HealthIcon extends FlxSprite
 					offset.y += 140;
 				case 'defeat':
 					offset.x += 50;
-					offset.y += 140;
+					offset.y += 115;
 				case 'winning':
 					offset.x += -50;
 					offset.y += 130;

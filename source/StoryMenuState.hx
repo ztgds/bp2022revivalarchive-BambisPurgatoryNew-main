@@ -143,25 +143,7 @@ class StoryMenuState extends MusicBeatState
 		{
 			lol2 = true;
 			FlxG.sound.play(Paths.sound('confirmMenu'));
-			FlxFlicker.flicker(week2, 1, 0.06, false, false, function(flick:FlxFlicker)
-			{
-			 FlxTween.tween(FlxG.camera, {zoom: 5}, 0.8, {ease: FlxEase.expoIn});
-			 FlxTween.tween(camera, {alpha: 0}, 0.8, {ease: FlxEase.expoIn});
-			 menuItems.forEach(function(spr:FlxSprite) {
-			 FlxTween.tween(spr, {alpha: 0}, 0.4, {
-				   ease: FlxEase.quadOut,
-				 onComplete: function(twn:FlxTween)
-				 {
-					   spr.kill();
-				 }
-			   });
-			});
-			 new FlxTimer().start(1, function(tmr:FlxTimer)
-			 {
-				 LoadingState.loadAndSwitchState(new TitleState());
-			 });
-			});
-			//startSong('shattered/shattered-hard', 'supplanted', 'reality breaking');	
+			startSong('rebound/rebound-hard', 'disposition-hard', 'upheaval');	
 		}
 		  
 		/*if(controls.BACK)
@@ -185,8 +167,7 @@ class StoryMenuState extends MusicBeatState
 	   FlxFlicker.flicker(week1, 1, 0.06, false, false, function(flick:FlxFlicker)
 	   {
 	    PlayState.storyPlaylist = [songName1, songName2, songName3];
-		//PlayState.isStoryMode = true;
-		//PlayState.isFreeplay = false;
+		PlayState.isStoryMode = true;
 	    PlayState.storyWeek = 2;
 	    PlayState.storyDifficulty = 2;
 	    PlayState.SONG = Song.loadFromJson(PlayState.storyPlaylist[0], '');

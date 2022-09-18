@@ -382,7 +382,11 @@ class FreeplayState extends MusicBeatState
 			if(colorTween != null) {
 				colorTween.cancel();
 			}
-			
+
+			/*CharacterSelectionState.characterFile = 'bf';
+			CharacterSelectionState.scoreMultipliers = [1, 1, 1, 1];
+			LoadingState.loadAndSwitchState(new CharacterSelectionState());*/
+
 			if (FlxG.keys.pressed.SHIFT){
 				LoadingState.loadAndSwitchState(new ChartingState());
 			}else{
@@ -488,7 +492,10 @@ class FreeplayState extends MusicBeatState
 		
 		Paths.currentModDirectory = songs[curSelected].folder;
 		PlayState.storyWeek = songs[curSelected].week;
-
+		//CharacterSelectionState.characterFile = 'bf';
+		//CharacterSelectionState.scoreMultipliers = [1, 1, 1, 1];
+		//LoadingState.loadAndSwitchState(new CharacterSelectionState());
+		
 		CoolUtil.difficulties = CoolUtil.defaultDifficulties.copy();
 		var diffStr:String = WeekData.getCurrentWeek().difficulties;
 		if(diffStr != null) diffStr = diffStr.trim(); //Fuck you HTML5

@@ -389,6 +389,8 @@ class PlayState extends MusicBeatState
 	var hills:DepthSprite;
 	var gate:DepthSprite;
 	var grass:DepthSprite;
+	var farm:DepthSprite;
+
 	var gridBG:FlxSprite;
 	var gridSine:Float = 0;
 	var bgshitH:DepthSprite;
@@ -711,20 +713,17 @@ class PlayState extends MusicBeatState
 				defaultCamZoom = 0.85;
 				curStage = 'farmDay';
 
-				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('dave/sky'));
-				bg.antialiasing = true;
-				bg.scrollFactor.set(0.2, 0.2);
-				bg.active = true;	
+				bg = new DepthSprite('dave/sky', -600, -200, 0.2, 0.2);
+				bg.depth = 0;
+				add(bg);
 
-				var hills:FlxSprite = new FlxSprite(-300, 110).loadGraphic(Paths.image('bambi/orangey hills'));
-				hills.antialiasing = true;
-				hills.scrollFactor.set(0.5, 0.5);
-				hills.active = true;
+				hills = new DepthSprite('bambi/orangey hills', -300, 110, 0.35, 0.35);
+				hills.depth = 0.25;
+				add(hills);
 
-				var farm:FlxSprite = new FlxSprite(150, 200).loadGraphic(Paths.image('bambi/funfarmhouse'));
-				farm.antialiasing = true;
-				farm.scrollFactor.set(0.65, 0.65);
-				farm.active = true;
+				farm = new DepthSprite('bambi/funfarmhouse', 150, 200, 0.65, 0.65);
+				farm.depth = 0.6;
+				add(farm);
 
 				var foreground:FlxSprite = new FlxSprite(-400, 600).loadGraphic(Paths.image('bambi/grass lands'));
 				foreground.antialiasing = true;
@@ -766,20 +765,17 @@ class PlayState extends MusicBeatState
 				defaultCamZoom = 0.85;
 				curStage = 'farmSunset';
 
-				var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('dave/sky_sunset'));
-				bg.antialiasing = true;
-				bg.scrollFactor.set(0.2, 0.2);
-				bg.active = true;
+				bg = new DepthSprite('dave/sky_sunset', -600, -200, 0.2, 0.2);
+				bg.depth = 0;
+				add(bg);
 
-				var hills:FlxSprite = new FlxSprite(-300, 110).loadGraphic(Paths.image('bambi/orangey hills'));
-				hills.antialiasing = true;
-				hills.scrollFactor.set(0.5, 0.5);
-				hills.active = true;
+				hills = new DepthSprite('bambi/orangey hills', -300, 110, 0.35, 0.35);
+				hills.depth = 0.25;
+				add(hills);
 
-				var farm:FlxSprite = new FlxSprite(150, 200).loadGraphic(Paths.image('bambi/funfarmhouse'));
-				farm.antialiasing = true;
-				farm.scrollFactor.set(0.65, 0.65);
-				farm.active = true;
+				farm = new DepthSprite('bambi/funfarmhouse', 150, 200, 0.65, 0.65);
+				farm.depth = 0.6;
+				add(farm);
 
 				var foreground:FlxSprite = new FlxSprite(-400, 600).loadGraphic(Paths.image('bambi/grass lands'));
 				foreground.antialiasing = true;
@@ -838,20 +834,17 @@ class PlayState extends MusicBeatState
 				  ShadersHandler.setChrome(1000);
 				*/
 
-				var bg:FlxSprite = new FlxSprite(-600, -400).loadGraphic(Paths.image('dave/sky_night'));
-				bg.antialiasing = true;
-				bg.scrollFactor.set(0.2, 0.2);
-				bg.active = true;
+				bg = new DepthSprite('dave/sky_night', -600, -200, 0.2, 0.2);
+				bg.depth = 0;
+				add(bg);
 
-				var hills:FlxSprite = new FlxSprite(-300, 110).loadGraphic(Paths.image('bambi/orangey hills'));
-				hills.antialiasing = true;
-				hills.scrollFactor.set(0.5, 0.5);
-				hills.active = true;
+				hills = new DepthSprite('bambi/orangey hills', -300, 110, 0.35, 0.35);
+				hills.depth = 0.25;
+				add(hills);
 
-				var farm:FlxSprite = new FlxSprite(150, 200).loadGraphic(Paths.image('bambi/funfarmhouse'));
-				farm.antialiasing = true;
-				farm.scrollFactor.set(0.65, 0.65);
-				farm.active = true;
+				farm = new DepthSprite('bambi/funfarmhouse', 150, 200, 0.65, 0.65);
+				farm.depth = 0.6;
+				add(farm);
 
 				var foreground:FlxSprite = new FlxSprite(-400, 600).loadGraphic(Paths.image('bambi/grass lands'));
 				foreground.antialiasing = true;

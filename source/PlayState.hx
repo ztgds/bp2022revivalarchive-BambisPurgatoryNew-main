@@ -6133,11 +6133,11 @@ class PlayState extends MusicBeatState
 			healthBarOverlay.visible = false;
 			iconP1.visible = false;
 			iconP2.visible = false;
+			scoreTxt.visible = false;
 		} 
 		strumLineNotes.visible = false;
 		grpNoteSplashes.visible = false;
 		notes.visible = false;
-		scoreTxt.visible = false;
 		if(showTime) {
 	    	timeBar.visible = false;
 	    	timeBarBG.visible = false;
@@ -6154,11 +6154,11 @@ class PlayState extends MusicBeatState
 			healthBarOverlay.visible = true;
 			iconP1.visible = true;
 			iconP2.visible = true;
+			scoreTxt.visible = true;
 		} 
 		strumLineNotes.visible = true;
 		grpNoteSplashes.visible = true;
 		notes.visible = true;
-		scoreTxt.visible = true;
 		if(showTime) {
 	    	timeBar.visible = true;
 	    	timeBarBG.visible = true;
@@ -6175,8 +6175,8 @@ class PlayState extends MusicBeatState
 	     	healthBarOverlay.visible = false;
 	        iconP1.visible = false;
 	    	iconP2.visible = false;
+			scoreTxt.visible = false;
 		}
-	   	scoreTxt.visible = false;
 		strumLineNotes.visible = true;
 		grpNoteSplashes.visible = true;
 		notes.visible = true;

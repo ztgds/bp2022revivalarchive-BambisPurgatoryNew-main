@@ -1876,15 +1876,28 @@ class PlayState extends MusicBeatState
     	if(composersWatermark != ' ')
 	    	add(composersText);
 
-		composersBG = new FlxSprite().makeGraphic(400, 50, FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
+		composersBG = new FlxSprite().makeGraphic(Std.int((composersText.textField.width) + 20), Std.int((composersText.height / 2)) + 30,
+			FlxColor.fromRGB(dad.healthColorArray[0], dad.healthColorArray[1], dad.healthColorArray[2]));
         composersBG.alpha = 0.6;
 		composersBG.y = 200;
 		composersBG.x -= 600;
 		composersBG.scrollFactor.set();
-		composersBG.setGraphicSize(Std.int(composersText.width + 120), 50);
+		composersBG.updateHitbox();
 		composersBG.cameras = [camOther];
+		#if !debug
 		if(composersWatermark != ' ')
 	    	insert(members.indexOf(composersText), composersBG);
+		#end
+
+		// shit for debug
+		#if debug
+		if(composersWatermark == ' ') {
+			trace('yo the song doesnt have a composer in the code, please add it if it has one');
+			composersText.txt == 'Song By Unknown';
+		}
+		add(composersText);
+		insert(members.indexOf(composersText), composersBG);	
+		#end
 	    // Ends Here //
 
 		// for rsod //
@@ -3149,15 +3162,13 @@ class PlayState extends MusicBeatState
 		FlxTween.tween(timeBar, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 		FlxTween.tween(timeTxt, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
 
-		FlxTween.tween(composersText, {x:20}, 1.5, {
-			ease: FlxEase.elasticInOut
-		});
-		FlxTween.tween(composersBG, {x:0}, 1.5, {
-			ease: FlxEase.elasticInOut
-		});
 		// for the credits //
 		for (dicknballs in [composersText, composersBG]) {
 			if (dicknballs != null) {
+				FlxTween.tween(dicknballs, {x:0}, 1.5, {
+					ease: FlxEase.elasticInOut
+				});
+
 				FlxTween.tween(dicknballs, {x:-1000}, 1.5, {
 					startDelay: 6,
 					onComplete: function(tween:FlxTween) {

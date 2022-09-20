@@ -1893,7 +1893,7 @@ class PlayState extends MusicBeatState
 		#if debug
 		if(composersWatermark == ' ') {
 			trace('yo the song doesnt have a composer in the code, please add it if it has one');
-			composersText.txt == 'Song By Unknown';
+			composersText.text = 'Song By Unknown';
 		}
 		add(composersText);
 		insert(members.indexOf(composersText), composersBG);	

@@ -1,66 +1,88 @@
 {
 	"animations": [
 		{
-			"loop": true,
+			"offsets": [
+				85,
+				-14
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "singLEFT",
+			"indices": [],
+			"name": "Left"
+		},
+		{
+			"offsets": [
+				13,
+				-43
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "singRIGHT",
+			"indices": [],
+			"name": "Right"
+		},
+		{
+			"offsets": [
+				-1,
+				23
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "singUP",
+			"indices": [],
+			"name": "Up"
+		},
+		{
+			"offsets": [
+				29,
+				-50
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "singDOWN",
+			"indices": [],
+			"name": "Down"
+		},
+		{
 			"offsets": [
 				0,
-				0
+				-40
 			],
-			"anim": "idle",
+			"loop": false,
 			"fps": 24,
-			"name": "IDLE",
-			"indices": []
+			"anim": "danceLeft",
+			"indices": [],
+			"name": "Idle_1"
+		},
+		{
+			"offsets": [
+				0,
+				-40
+			],
+			"loop": false,
+			"fps": 24,
+			"anim": "danceRight",
+			"indices": [],
+			"name": "Idle_2"
 		},
 		{
 			"loop": false,
 			"offsets": [
-				10,
-				50
-			],
-			"anim": "singUP",
-			"fps": 24,
-			"name": "UP",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [
-				80,
-				20
-			],
-			"anim": "singLEFT",
-			"fps": 24,
-			"name": "LEFT",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [
-				-10,
+				42,
 				-30
 			],
-			"anim": "singRIGHT",
+			"anim": "Idiot",
 			"fps": 24,
-			"name": "RIGHT",
-			"indices": []
-		},
-		{
-			"loop": false,
-			"offsets": [
-				50,
-				-34
-			],
-			"anim": "singDOWN",
-			"fps": 24,
-			"name": "DOWN",
+			"name": "FuckingIdiot",
 			"indices": []
 		}
 	],
 	"no_antialiasing": false,
 	"image": "characters/bambi-rage",
 	"position": [
-		-5,
-		350
+		170,
+		370
 	],
 	"healthicon": "bambiRage",
 	"flip_x": false,
@@ -70,9 +92,9 @@
 		0
 	],
 	"camera_position": [
-		-10,
-		67
+		0,
+		0
 	],
-	"sing_duration": 6.1,
-	"scale": 1.3
+	"sing_duration": 4,
+	"scale": 1
 }

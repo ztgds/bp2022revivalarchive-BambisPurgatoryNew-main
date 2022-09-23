@@ -7,7 +7,7 @@
 				-70
 			],
 			"anim": "idle",
-			"fps": 4,
+			"fps": 6,
 			"name": "IDLE",
 			"indices": []
 		},
@@ -18,7 +18,7 @@
 				-110
 			],
 			"anim": "singRIGHT",
-			"fps": 4,
+			"fps": 6,
 			"name": "RIGHT",
 			"indices": []
 		},
@@ -29,7 +29,7 @@
 				40
 			],
 			"anim": "singDOWN",
-			"fps": 4,
+			"fps": 6,
 			"name": "DOWN",
 			"indices": []
 		},
@@ -40,7 +40,7 @@
 				-30
 			],
 			"anim": "singUP",
-			"fps": 4,
+			"fps": 6,
 			"name": "UP",
 			"indices": []
 		},
@@ -51,7 +51,7 @@
 				10
 			],
 			"anim": "singLEFT",
-			"fps": 4,
+			"fps": 6,
 			"name": "LEFT",
 			"indices": []
 		}

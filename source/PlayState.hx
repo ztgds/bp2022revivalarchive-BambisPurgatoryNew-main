@@ -762,10 +762,10 @@ class PlayState extends MusicBeatState
 
 		case 'farmSunset':
 			{
-				defaultCamZoom = 0.85;
+				defaultCamZoom = 0.8;
 				curStage = 'farmSunset';
 
-				bg = new DepthSprite('dave/sky_sunset', -600, -200, 0.2, 0.2);
+				/*bg = new DepthSprite('dave/sky_sunset', -600, -200, 0.2, 0.2);
 				bg.depth = 0;
 				add(bg);
 
@@ -802,10 +802,6 @@ class PlayState extends MusicBeatState
 				sign.scrollFactor.set(1, 1);
 				sign.active = true;
 
-				colorFilter = new BGSprite(null, -800, -400, 0, 0);
-				colorFilter.makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), 0xFFFF8FB2);
-				colorFilter.blend = MULTIPLY;
-
 				//hills.color = 0xFFF9974C;
 				//farm.color = 0xFFF9974C;
 				//foreground.color = 0xFFF9974C;
@@ -821,7 +817,27 @@ class PlayState extends MusicBeatState
 				add(cornSet);
 				add(cornSet2);
 				add(fence);
-				add(sign);
+				add(sign); */
+
+				var sky:BGSprite = new BGSprite('bambi/sunset/sky_evening', -200, -300, 0, 0);
+				//sky.scale.set(0.5,0.5);
+				add(sky);
+
+				var hills:BGSprite = new BGSprite('bambi/sunset/hills', -1500, -1600, 0.2, 0.2);
+				hills.scale.set(0.5,0.5);
+				add(hills);
+
+				var farm:BGSprite = new BGSprite('bambi/sunset/farm', -1300, -1500, 0.65, 0.65);
+				farm.scale.set(0.6,0.6);
+				add(farm);
+
+				var foreground:BGSprite = new BGSprite('bambi/sunset/foreground', -1350, -1550, 1, 1);
+				foreground.scale.set(0.75,0.75);
+				add(foreground);
+
+				colorFilter = new BGSprite(null, -800, -400, 0, 0);
+				colorFilter.makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), 0xFFFF8FB2);
+				colorFilter.blend = MULTIPLY;
 			}
 
 		case 'farmNight':
@@ -893,7 +909,7 @@ class PlayState extends MusicBeatState
 				sky.scale.set(0.5,0.5);
 				add(sky);
 
-				var hills:BGSprite = new BGSprite('bambi/night/hills', -1500, -1800, 0.2, 0.2);
+				var hills:BGSprite = new BGSprite('bambi/night/hills', -1500, -1600, 0.2, 0.2);
 				hills.scale.set(0.5,0.5);
 				add(hills);
 
